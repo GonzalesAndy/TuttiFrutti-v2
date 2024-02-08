@@ -111,6 +111,11 @@ body {
     margin: 0 5vh;
 }
 
+.navbar .navbar-center span {
+    font-size: x-large;
+}
+
+
 .navbar:hover .navbar-center img {
     animation: rotateLogo 2s linear infinite forwards;
 }
