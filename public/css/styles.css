@@ -25,6 +25,7 @@ body {
     right: 0;
     margin: 0 auto;
     width: 90%;
+    max-height: 72px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -106,8 +107,8 @@ body {
 
 .navbar .navbar-center img {
     transition: transform 2s ease;
-    scale: 1.5;
-    margin-right: 2vh;
+    scale: 2.6;
+    margin: 0 5vh;
 }
 
 .navbar:hover .navbar-center img {
