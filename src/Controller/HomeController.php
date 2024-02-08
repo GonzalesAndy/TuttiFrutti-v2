@@ -27,6 +27,14 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/explorer', name: 'explorer')]
+    public function explorer(): Response
+    {
+        return $this->render('pages/explorer.html.twig', [
+            'title' => 'Exporer'
+        ]);
+    }
+
     #[Route('/test', name: 'test')]
     public function test(DiscogsApiService $discogsApiService): Response
     {
