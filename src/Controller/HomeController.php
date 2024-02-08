@@ -31,7 +31,7 @@ class HomeController extends AbstractController
     public function test(DiscogsApiService $discogsApiService): Response
     {
         $title = 'banana';
-        $type = 'release';
+        $type = 'master';
 
         $result = $discogsApiService->search($title, $type);
         return $this->render('pages/test.html.twig', [
