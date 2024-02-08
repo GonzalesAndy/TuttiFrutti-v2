@@ -16,18 +16,19 @@
 {% block body %}
     <main>
         <h1>“Bienvenue sur TuttiFrutti. J'espère que vous passerez un délicieux moment„</h1>
-        <div>
-            <img id="fruit" value="2" class="banane" src="{{ asset('img/banane.png') }}" alt="banane">
-            <img id="fruit" value="4" class="pomme" src="{{ asset('img/pomme.png') }}" alt="pomme">
-            <img id="fruit" value="4" class="grenade" src="{{ asset('img/grenade.png') }}" alt="grenade">
-            <img id="fruit" value="2" class="mure" src="{{ asset('img/mure.png') }}" alt="mure">
+        <div class="container">
+            <div class="section">
+                <img id="fruit" value="2" class="banane" src="{{ asset('img/banane.png') }}" alt="banane">
+                <img id="fruit" value="4" class="pomme" src="{{ asset('img/pomme.png') }}" alt="pomme">
+                <img id="fruit" value="4" class="grenade" src="{{ asset('img/grenade.png') }}" alt="grenade">
+                <img id="fruit" value="2" class="mure" src="{{ asset('img/mure.png') }}" alt="mure">
+            </div>
+            <div class="section">
+
+            </div>
         </div>
     </main>
-    {% block inline_javascript %}
-        {{ parent() }}
         <script>
-
-
             document.addEventListener("mousemove", parallax);
             function parallax(event) {
                 this.querySelectorAll("#fruit").forEach((shift) => {
@@ -39,7 +40,6 @@
                 });
             }
         </script>
-    {% endblock %}
 {% endblock %}
 
 

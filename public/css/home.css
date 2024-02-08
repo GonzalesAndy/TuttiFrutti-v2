@@ -1,11 +1,16 @@
 html {
-    overflow: hidden; !important;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+}
+
+.navbar {
+    position: absolute; !important
 }
 
 .banane {
     width: 40%;
     height: auto;
-    position: fixed;
+    position: absolute;
     bottom: 30px;
     left: -225px;
     margin: 20px;
@@ -49,4 +54,15 @@ h1 {
     margin: 15% 20%;
     user-select: none;
 
+}
+
+.container {
+    height: 100vh;
+    scroll-snap-type: y mandatory;
+}
+
+.section {
+    height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
