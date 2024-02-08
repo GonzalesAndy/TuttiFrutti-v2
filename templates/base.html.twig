@@ -5,6 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            <link href="{{ asset('css/styles.css') }}" type="text/css" rel="stylesheet">
         {% endblock %}
 
         {% block javascripts %}
@@ -12,6 +13,59 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <nav id="navbar" class="navbar">
+                <div class="navbar-left">
+                    <a href="/" class="link-main">
+                        <div h="full" class="hover-underline-animation">
+                            Explorer
+                        </div>
+                    </a>
+                    <a href="/" class="link-main">
+                        <div h="full" class="hover-underline-animation">
+                            Mes favoris
+                        </div>
+                    </a>
+                </div>
+                <div class="navbar-center">
+                    <img src="{{ asset('img/logo.png') }}" alt="TutiFruiti Logo">
+                    <span>TuttiFrutti</span>
+                </div>
+                <div class="navbar-right">
+                    <input  type="text" placeholder="Recherche">
+                    <img src="{{ asset('img/account.png') }}" alt="">
+                </div>
+            </nav>
+
+            <div id="no-navbar-menu" class="no-navbar-menu">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+                <p>Menu</p>
+            </div>
+        </header>
         {% block body %}{% endblock %}
+        {% block inline_javascript %}
+        <script>
+            let prevScrollPos = window.pageYOffset;
+
+            menuNoNavbar = document.getElementById("no-navbar-menu");
+            menuNoNavbar.style.display = "none";
+
+            menuNoNavbar.onclick = function(){
+            document.getElementById("navbar").classList.remove("hide");
+            menuNoNavbar.style.display="none";
+            };
+            window.onscroll = function () {
+            const currentScrollPos = window.pageYOffset;
+
+            if (currentScrollPos === 0 && document.getElementById("navbar").classList.contains("hide")) {
+            document.getElementById("navbar").classList.remove("hide");
+            menuNoNavbar.style.display="none";
+            } else {
+            document.getElementById("navbar").classList.add("hide");
+            menuNoNavbar.style.display="flex";
+            }
+            };
+        </script>
+        {% endblock %}
     </body>
 </html>
