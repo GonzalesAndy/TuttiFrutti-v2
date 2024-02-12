@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="TuttiFrutti">
+        <meta name="keywords" content="fruits, légumes, musique">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <script src="https://kit.fontawesome.com/277443cd3e.js" crossorigin="anonymous"></script>
         {% block stylesheets %}
             <link href="{{ asset('css/styles.css') }}" type="text/css" rel="stylesheet">
         {% endblock %}
 
-        {% block javascripts %}
-{% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
     </head>
     <body>
         <header>
             <nav id="navbar" class="navbar">
                 <div class="navbar-left">
                     <a href="/explorer" class="link-main">
-                        <div h="full" class="hover-underline-animation">
+                        <div  class="hover-underline-animation">
                             Explorer
                         </div>
                     </a>
                     <a href="/" class="link-main">
-                        <div h="full" class="hover-underline-animation">
+                        <div  class="hover-underline-animation">
                             Mes favoris
                         </div>
                     </a>
@@ -34,34 +35,32 @@
                 </div>
                 <div class="navbar-right">
                     <input  type="text" placeholder="Recherche">
-                    <img src="{{ asset('img/account.png') }}" alt="">
+                    <div class="profile">
+                        <div class="img-box">
+                            <img src="{{ asset('img/account.png') }}" alt="">
+                        </div>
+                        <div class="menu">
+                            <ul>
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <li><a href="/logout"><i class="fa-solid fa-sign-out"></i>&nbsp;Déconnexion</a></li>
+                                {% else %}
+                                    <li><a href="/login"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Connexion</a></li>
+                                    <li><a href="/register"><i class="fa-solid fa-pen-fancy"></i>&nbsp;Inscription</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </header>
         {% block body %}{% endblock %}
-        {% block inline_javascript %}
-        <script>
-            let prevScrollPos = window.pageYOffset;
+            <script>
+                let profile = document.querySelector('.profile');
+                let menu = document.querySelector('.menu');
 
-            menuNoNavbar = document.getElementById("no-navbar-menu");
-            menuNoNavbar.style.display = "none";
-
-            menuNoNavbar.onclick = function(){
-            document.getElementById("navbar").classList.remove("hide");
-            menuNoNavbar.style.display="none";
-            };
-            window.onscroll = function () {
-            const currentScrollPos = window.pageYOffset;
-
-            if (currentScrollPos === 0 && document.getElementById("navbar").classList.contains("hide")) {
-            document.getElementById("navbar").classList.remove("hide");
-            menuNoNavbar.style.display="none";
-            } else {
-            document.getElementById("navbar").classList.add("hide");
-            menuNoNavbar.style.display="flex";
-            }
-            };
-        </script>
-        {% endblock %}
+                profile.onclick = function () {
+                    menu.classList.toggle('active');
+                }
+            </script>
     </body>
 </html>
