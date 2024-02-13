@@ -10,7 +10,7 @@
     align-items: center;
     padding: 40px;
     border-radius: 4px;
-    box-shadow: 0 5px 50px rgba(0,0,0,4);
+    box-shadow: 1px 6px 44px -13px #000000
 }
 
 .signin .content

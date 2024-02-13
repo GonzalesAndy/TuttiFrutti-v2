@@ -4,6 +4,8 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+
 {% endblock %}
 {% block body %}
 
@@ -26,7 +28,8 @@
             </div>
             <button type="submit" class="btn">Register</button>
             {{ form_end(registrationForm) }}
+
         </div>
     </div>
-
+    {{ include('paralax.html.twig') }}
 {% endblock %}

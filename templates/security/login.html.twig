@@ -5,6 +5,7 @@
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
 {% endblock %}
 {% block body %}
@@ -23,13 +24,13 @@
 
 
                 <h2 class="">Please sign in</h2>
-                <label for="username">Username</label>
                 <div class="inputBox">
-                <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+                    <label for="username">Username</label>
+                    <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
                 </div>
-                <label for="password">Password</label>
                 <div class="inputBox">
-                <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                    <label for="password">Password</label>
+                    <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <div class="checkbox mb-3">
@@ -45,4 +46,5 @@
             </form>
         </div>
     </div>
+    {{ include('paralax.html.twig') }}
 {% endblock %}
