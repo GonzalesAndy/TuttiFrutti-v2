@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+
 @font-face {
-    font-family:"FoundersGrotesk";
-    src:url("../fonts/FoundersGrotesk-Regular.otf") format("opentype");
-    font-weight:400;
-    font-display:swap;
+    font-family: "FoundersGrotesk";
+    src: url("../fonts/FoundersGrotesk-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-display: swap;
 }
+
 html {
     width: 100%;
     height: 100%;
@@ -21,6 +23,8 @@ body {
 
 
 .navbar {
+    position: fixed;
+    z-index: 1001;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -50,7 +54,7 @@ body {
     height: 40px;
     padding: 0 20px;
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
     background-color: #154726;
     border-radius: 50px;
@@ -65,23 +69,23 @@ body {
     padding-left: 5px;
 }
 
-.btn  {
+.btn {
     font-family: FoundersGrotesk;
     font-size: 1.5rem;
     font-weight: 500;
     line-height: 1.8rem;
 }
 
-.btn  {
+.btn {
     height: 4rem;
-    font-size: 1.5rem!important;
+    font-size: 1.5rem !important;
 }
 
 .link-main {
     position: relative;
     display: block;
     width: fit-content;
-    text-decoration: none!important;
+    text-decoration: none !important;
     cursor: pointer;
     font-weight: 500;
     font-size: .9rem;
@@ -125,15 +129,22 @@ body {
 }
 
 
-.navbar-right input {
+.navbar-search-input {
     padding: 5px 10px;
     border: 1px solid #c3beb5;
     border-radius: 20px;
     background-color: transparent;
 }
+
+.navbar-search-input:focus-visible {
+    outline-offset: unset;
+    outline: unset;
+}
+
 .navbar-right {
     display: flex;
 }
+
 .navbar-right img {
     width: 40px;
     align-items: center;
@@ -174,4 +185,56 @@ body {
 
 span, a {
     user-select: none;
+}
+
+.autocomplete-input {
+    padding: 5px 10px;
+    border: 1px solid #c3beb5;
+    border-bottom: unset;
+    border-radius: 0.8rem 0.8rem 0 0;
+    background-color: transparent;
+}
+
+.autocomplete-input:focus-visible {
+    outline-offset: unset;
+    outline: unset;
+}
+
+#autocomplete-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#autocomplete-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #FAF3E6;
+    position: absolute;
+    width: 99%;
+    z-index: 1000;
+    top: 65%;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-radius: 0 0 0.8rem 0.8rem;
+    box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+#autocomplete-results li {
+    padding: 0.6rem;
+    cursor: pointer;
+}
+
+#autocomplete-results li:hover {
+    background-color: #eee;
+    border-radius: 0.8rem;
+}
+
+#autocomplete-results div {
+    position: absolute;
+    border-bottom: 1px solid #ccc;
+    left: 10%;
+    right: 10%;
 }

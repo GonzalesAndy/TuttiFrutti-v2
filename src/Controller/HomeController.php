@@ -1,16 +1,15 @@
 <?php
+
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Service\DiscogsApiService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function Webmozart\Assert\Tests\StaticAnalysis\string;
 
 class HomeController extends AbstractController
 {
-
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -18,12 +17,14 @@ class HomeController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
     #[Route('/', name: 'home')]
     public function index(): Response
     {
+        $fruits = ['pomme', 'banane', 'orange', 'fraise'];
+
         return $this->render('pages/home.html.twig', [
-            'title' => 'Home'
+            'title' => 'Home',
+            'fruits' => $fruits,
         ]);
     }
 
@@ -34,9 +35,10 @@ class HomeController extends AbstractController
         $type = 'master';
 
         $result = $discogsApiService->search($title, $type);
+
         return $this->render('pages/test.html.twig', [
             'title' => 'Test',
-            'results' => $result['results']
+            'results' => $result['results'],
         ]);
     }
 }
