@@ -25,21 +25,21 @@
             </div>
             <div class="section">
 
-            </div>
+        </div>
         </div>
     </main>
-        <script>
-            document.addEventListener("mousemove", parallax);
-            function parallax(event) {
-                this.querySelectorAll("#fruit").forEach((shift) => {
-                    const position = shift.getAttribute("value");
-                    const x = (window.innerWidth - event.pageX * position) / 90;
-                    const y = (window.innerHeight - event.pageY * position) / 90;
+    <script>
+        document.addEventListener("mousemove", parallax);
+        function parallax(event) {
+            this.querySelectorAll("#fruit").forEach((shift) => {
+                const position = shift.getAttribute("value");
+                const x = (window.innerWidth - event.pageX * position) / 90;
+                const y = (window.innerHeight - event.pageY * position) / 90;
 
-                    shift.style.transform = `translateX(${x}px) translateY(${y}px)`;
-                });
-            }
-        </script>
+                shift.style.transform = `translateX(${x}px) translateY(${y}px)`;
+            });
+        }
+    </script>
 {% endblock %}
 
 

@@ -1,6 +1,5 @@
 html {
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
+    overflow: hidden;
 }
 
 .banane {
@@ -52,13 +51,3 @@ h1 {
 
 }
 
-.container {
-    height: 100vh;
-    scroll-snap-type: y mandatory;
-}
-
-.section {
-    height: 100vh;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-}
