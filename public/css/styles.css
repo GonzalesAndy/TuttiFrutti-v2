@@ -59,7 +59,7 @@ body {
     background-color: #154726;
     border-radius: 50px;
     border-style: solid;
-    border-width: 0.1px;
+    border-width: 1px;
     border-color: #e1dbd0;
     box-sizing: border-box;
     color: white;
@@ -69,8 +69,8 @@ body {
     padding-left: 5px;
 }
 
-.btn {
-    font-family: FoundersGrotesk;
+.btn  {
+    font-family: FoundersGrotesk, serif;
     font-size: 1.5rem;
     font-weight: 500;
     line-height: 1.8rem;
@@ -114,6 +114,11 @@ body {
     scale: 2.6;
     margin: 0 5vh;
 }
+
+.navbar .navbar-center span {
+    font-size: x-large;
+}
+
 
 .navbar:hover .navbar-center img {
     animation: rotateLogo 2s linear infinite forwards;
@@ -237,4 +242,95 @@ span, a {
     border-bottom: 1px solid #ccc;
     left: 10%;
     right: 10%;
+}
+
+
+.profile {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    text-align: end;
+}
+
+.profile h3 {
+    text-align: end;
+    line-height: 1;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.profile p {
+    line-height: 1;
+    font-size: 14px;
+    opacity: .6;
+}
+
+
+
+/* menu (the right one) */
+
+.menu {
+    position: absolute;
+    top: calc(100% + 24px);
+    right: 7px;
+    width: 200px;
+    min-height: 100px;
+    background: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: 300ms;
+    z-index: 1001;
+}
+
+.menu::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+.menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.menu ul {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    z-index: 10;
+    background: #fff;
+}
+
+.menu ul li {
+    list-style: none;
+}
+
+.menu ul li:hover {
+    background: #eee;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 6px;
+}
+
+.menu ul li a i {
+    font-size: 1.2em;
 }

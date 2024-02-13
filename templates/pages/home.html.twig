@@ -16,30 +16,9 @@
 {% block body %}
     <main>
         <h1>“Bienvenue sur TuttiFrutti. J'espère que vous passerez un délicieux moment„</h1>
-        <div>
-            <img id="fruit" value="2" class="banane" src="{{ asset('img/banane.png') }}" alt="banane">
-            <img id="fruit" value="4" class="pomme" src="{{ asset('img/pomme.png') }}" alt="pomme">
-            <img id="fruit" value="4" class="grenade" src="{{ asset('img/grenade.png') }}" alt="grenade">
-            <img id="fruit" value="2" class="mure" src="{{ asset('img/mure.png') }}" alt="mure">
-        </div>
+        {{ include('paralax.html.twig') }}
     </main>
-    {% block inline_javascript %}
-        {{ parent() }}
-        <script>
 
-
-            document.addEventListener("mousemove", parallax);
-            function parallax(event) {
-                this.querySelectorAll("#fruit").forEach((shift) => {
-                    const position = shift.getAttribute("value");
-                    const x = (window.innerWidth - event.pageX * position) / 90;
-                    const y = (window.innerHeight - event.pageY * position) / 90;
-
-                    shift.style.transform = `translateX(${x}px) translateY(${y}px)`;
-                });
-            }
-        </script>
-    {% endblock %}
 {% endblock %}
 
 

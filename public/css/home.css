@@ -1,11 +1,11 @@
 html {
-    overflow: hidden; !important;
+    overflow: hidden;
 }
 
 .banane {
     width: 40%;
     height: auto;
-    position: fixed;
+    position: absolute;
     bottom: 30px;
     left: -225px;
     margin: 20px;
@@ -50,3 +50,4 @@ h1 {
     user-select: none;
 
 }
+
