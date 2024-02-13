@@ -20,6 +20,8 @@
 }
 
 .fruitExplorerContainerBot {
+    display: flex;
+    overflow-x: scroll;
 }
 
 .fruitExplorerContainerTop{
