@@ -14,11 +14,11 @@ html {
 
 body {
     margin: 0;
+
     font-family: Roboto, serif;
     font-weight: 500;
     background-color: #ffe9a1;
-    width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 
@@ -27,6 +27,8 @@ body {
     z-index: 1001;
     left: 0;
     right: 0;
+    position: fixed;
+    z-index: 1111;
     margin: 0 auto;
     width: 90%;
     max-height: 72px;

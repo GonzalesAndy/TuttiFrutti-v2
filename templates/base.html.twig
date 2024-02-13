@@ -52,7 +52,6 @@
     </div>
 </header>
 {% block body %}{% endblock %}
-{% block inline_javascript %}
     <script>
         let prevScrollPos = window.pageYOffset;
 
@@ -62,6 +61,6 @@
                 profile.onclick = function () {
                     menu.classList.toggle('active');
                 }
-            </script>
+    </script>
     </body>
 </html>
