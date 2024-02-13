@@ -12,28 +12,26 @@
             <link href="{{ asset('css/styles.css') }}" type="text/css" rel="stylesheet">
         {% endblock %}
 
-    {% block javascripts %}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
-    {% endblock %}
+
 </head>
 <body>
 <header>
     <nav id="navbar" class="navbar">
         <div class="navbar-left">
-            <a href="/" class="link-main">
-                <div h="full" class="hover-underline-animation">
+            <a href="/explorer" class="link-main">
+                <div class="hover-underline-animation">
                     Explorer
                 </div>
             </a>
             <a href="/" class="link-main">
-                <div h="full" class="hover-underline-animation">
+                <div class="hover-underline-animation">
                     Mes favoris
                 </div>
             </a>
         </div>
         <div class="navbar-center">
             <span>Tutti</span>
-            <img src="{{ asset('img/logo.png') }}" alt="TutiFruiti Logo">
+            <a href="/"><img src="{{ asset('img/logo.png') }}" alt="TutiFruiti Logo"></a>
             <span>Frutti</span>
         </div>
         <div class="navbar-right">
@@ -42,25 +40,32 @@
                 <ul id="autocomplete-results" style="display:none;"></ul>
                 <script src="{{ asset('js/autocomplete.js') }}"></script>
             </div>
-            <img src="{{ asset('img/account.png') }}" alt="">
+            <div class="profile">
+                <div class="img-box">
+                    <img src="{{ asset('img/account.png') }}" alt="">
+                </div>
+                <div class="menu">
+                    <ul>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <li><a href="/logout"><i class="fa-solid fa-sign-out"></i>&nbsp;Déconnexion</a></li>
+                        {% else %}
+                            <li><a href="/login"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Connexion</a></li>
+                            <li><a href="/register"><i class="fa-solid fa-envelope-simple"></i>&nbsp;Inscription</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
-
-    <div id="no-navbar-menu" class="no-navbar-menu">
-        <i class="fa fa-bars" aria-hidden="true"></i>
-        <p>Menu</p>
-    </div>
 </header>
 {% block body %}{% endblock %}
     <script>
-        let prevScrollPos = window.pageYOffset;
+        let profile = document.querySelector('.profile');
+        let menu = document.querySelector('.menu');
 
-        menuNoNavbar = document.getElementById("no-navbar-menu");
-        menuNoNavbar.style.display = "none";
-
-                profile.onclick = function () {
-                    menu.classList.toggle('active');
-                }
+        profile.onclick = function () {
+            menu.classList.toggle('active');
+        }
     </script>
     </body>
 </html>
