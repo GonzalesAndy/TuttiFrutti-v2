@@ -20,12 +20,19 @@
                 <img src="img/banane.png"></img>
                 <h3>La banane, une harmonie exotique qui transporte les papilles!</h3>
             </div>
-            <div class="fruitExplorerContainerBot">
-                {% for result in results.banane|slice(0, 10) %}
-                    <p>{{ result.title }}</p>
-                    <a href="#"><img src="{{ result.thumb }}"></a>
-                {% endfor %}
+            <div class="fruitExplorerContainerBotButtons">
+                <button id="slideLeft" type="button">Slide left</button>
+                <div class="fruitExplorerContainerBot" id="containerBot">
+                    {% for result in results.banane|slice(0, 10) %}
+                        <a href="#"><div class="albumCard">
+                            <img src="{{ result.thumb }}">
+                            <p id="albumTitle">{{ result.title }}</p>
+                        </div></a>
+                    {% endfor %}
+                </div>
+                <button id="slideRight" type="button">Slide right</button>
             </div>
+
         </div>
         <div class="fruitExplorerContainer">
             <div class="fruitExplorerContainerTop">
@@ -34,10 +41,24 @@
             </div>
             <div class="fruitExplorerContainerBot">
                 {% for result in results.grenade|slice(0, 10) %}
-                    <p>{{ result.title }}</p>
-                    <a href="#"><img src="{{ result.thumb }}"></a>
+                    <a href="#"><div class="albumCard">
+                        <img src="{{ result.thumb }}">
+                        <p class="albumTitle">{{ result.title }}</p>
+                    </div></a>
                 {% endfor %}
             </div>
         </div>
     </div>
+
+    <script>
+        const buttonRight = document.getElementById('slideRight');
+        const buttonLeft = document.getElementById('slideLeft');
+
+        buttonRight.onclick = function () {
+            document.getElementById('containerBot').scrollLeft += 300;
+        };
+        buttonLeft.onclick = function () {
+            document.getElementById('containerBot').scrollLeft -= 300;
+        };
+    </script>
 {% endblock %}
