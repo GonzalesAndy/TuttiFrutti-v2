@@ -1,0 +1,34 @@
+.mainExplorerContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 50%;
+    width: 80%;
+    margin-inline: auto;
+    margin-top: 4%;
+}
+
+.fruitExplorerContainer {
+    display:flex;
+    flex-direction: column;
+    width: 80%;
+    height: 17rem;
+    background-color: #fefefe;
+    margin-inline: auto;
+    border-radius: 1rem;
+    margin-bottom: 5rem;
+    background-color: #FAF3E6;
+}
+
+.fruitExplorerContainerBot {
+}
+
+.fruitExplorerContainerTop{
+    display: flex;
+    padding: 1rem;
+}
+
+.fruitExplorerContainerTop img{
+    width: 3rem;
+    height: auto;
+    margin-right: 1rem;
+}
