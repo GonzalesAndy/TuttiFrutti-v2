@@ -46,8 +46,25 @@
 
 a {
     text-decoration: none !important;
+
+}
+
+.albumTitle {
+    color: black;
 }
 
 .fruitExplorerContainerBotButtons{
     display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.slideButton {
+    font-family: Roboto, sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    color: black;
+    background-color: transparent;
+    border-color: transparent;
+    translate: 0 -30px;
 }

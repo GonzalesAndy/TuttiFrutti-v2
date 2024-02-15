@@ -15,50 +15,37 @@
 
 {% block body %}
     <div class="mainExplorerContainer">
-        <div class="fruitExplorerContainer">
-            <div class="fruitExplorerContainerTop">
-                <img src="img/banane.png"></img>
-                <h3>La banane, une harmonie exotique qui transporte les papilles!</h3>
-            </div>
-            <div class="fruitExplorerContainerBotButtons">
-                <button id="slideLeft" type="button">Slide left</button>
-                <div class="fruitExplorerContainerBot" id="containerBot">
-                    {% for result in results.banane|slice(0, 10) %}
-                        <a href="#"><div class="albumCard">
-                            <img src="{{ result.thumb }}">
-                            <p id="albumTitle">{{ result.title }}</p>
-                        </div></a>
-                    {% endfor %}
+        {% for fruitKey, fruitResults in results %}
+            <div class="fruitExplorerContainer">
+                <div class="fruitExplorerContainerTop">
+                    <img src="img/{{ fruitKey }}.png"></img>
+                    <h3>{{ fruitResults.0.title }}</h3>
                 </div>
-                <button id="slideRight" type="button">Slide right</button>
+                <div class="fruitExplorerContainerBotButtons">
+                    <button class="slideButton" id="{{ 'slideLeft_' ~ fruitKey }}" type="button"><</button>
+                    <div class="fruitExplorerContainerBot" id="{{ 'containerBot_' ~ fruitKey }}">
+                        {% for result in fruitResults|slice(0, 10) %}
+                            <a href="#"><div class="albumCard">
+                                    <img src="{{ result.thumb }}">
+                                    <p class="albumTitle"><strong>{{ result.title|split(' - ')[0] }}</strong><br>{{ result.title|split(' - ')[1] }}</p>
+                                </div></a>
+                        {% endfor %}
+                    </div>
+                    <button class="slideButton" id="{{ 'slideRight_' ~ fruitKey }}" type="button">></button>
+                </div>
             </div>
 
-        </div>
-        <div class="fruitExplorerContainer">
-            <div class="fruitExplorerContainerTop">
-                <img src="img/grenade.png"></img>
-                <h3>La grenade, une harmonie exotique qui transporte les papilles!</h3>
-            </div>
-            <div class="fruitExplorerContainerBot">
-                {% for result in results.grenade|slice(0, 10) %}
-                    <a href="#"><div class="albumCard">
-                        <img src="{{ result.thumb }}">
-                        <p class="albumTitle">{{ result.title }}</p>
-                    </div></a>
-                {% endfor %}
-            </div>
-        </div>
+            <script>
+                const buttonRight_{{ fruitKey }} = document.getElementById('{{ 'slideRight_' ~ fruitKey }}');
+                const buttonLeft_{{ fruitKey }} = document.getElementById('{{ 'slideLeft_' ~ fruitKey }}');
+
+                buttonRight_{{ fruitKey }}.onclick = function () {
+                    document.getElementById('{{ 'containerBot_' ~ fruitKey }}').scrollLeft += 300;
+                };
+                buttonLeft_{{ fruitKey }}.onclick = function () {
+                    document.getElementById('{{ 'containerBot_' ~ fruitKey }}').scrollLeft -= 300;
+                };
+            </script>
+        {% endfor %}
     </div>
-
-    <script>
-        const buttonRight = document.getElementById('slideRight');
-        const buttonLeft = document.getElementById('slideLeft');
-
-        buttonRight.onclick = function () {
-            document.getElementById('containerBot').scrollLeft += 300;
-        };
-        buttonLeft.onclick = function () {
-            document.getElementById('containerBot').scrollLeft -= 300;
-        };
-    </script>
 {% endblock %}

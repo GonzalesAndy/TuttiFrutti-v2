@@ -11,7 +11,7 @@ class ExplorerController extends AbstractController
     #[Route('/explorer', name: 'explorer')]
     public function explorer(DiscogsApiService $discogsApiService): Response
     {
-        $titles = ['banane', 'grenade'];
+        $titles = ['banane', 'grenade', 'pomme'];
         $type = 'master';
         $results = [];
 
