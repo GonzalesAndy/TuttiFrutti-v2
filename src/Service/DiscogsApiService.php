@@ -36,9 +36,8 @@ class DiscogsApiService
             ],
         ]);
 
-        //only return the tracklist
+        $tracklist = $response->toArray()['tracklist'];
 
-
-        return $response->toArray();
+        return $tracklist;
     }
 }
