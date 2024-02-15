@@ -25,7 +25,6 @@ class ExplorerController extends AbstractController
 
         foreach ($descriptons as $title => $description) {
             $result = $discogsApiService->multipleLanguageSearch($title, $type);
-            dump($result);
             $results[$title] = $result;
             shuffle($results[$title]);
         }
