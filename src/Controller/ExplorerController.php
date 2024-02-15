@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Fruit;
 use App\Service\DiscogsApiService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,29 +11,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExplorerController extends AbstractController
 {
     #[Route('/explorer', name: 'explorer')]
-    public function explorer(DiscogsApiService $discogsApiService): Response
+    public function explorer(DiscogsApiService $discogsApiService, EntityManagerInterface $entityManager): Response
     {
-
-        $descriptons = [
-            'banane' => 'La banane, un fruit exotique, des tubes ensoleillés.',
-            'pomme' => 'La pomme, le fruit qui donne du croquant aux mélodies.',
-            'fraise' => 'De la graine à la mélodie, les fraises en musique.',
-            'framboise' => 'La framboise, un fruit qui donne une couleur unique aux rythmes.'
-        ];
-        $type = 'master';
         $results = [];
+        $descriptions = [];
+        $fruits = $entityManager->getRepository(className: Fruit::class)->findAll();
+        shuffle($fruits);
+        $fruits = array_slice($fruits, 0, 3);
 
-        foreach ($descriptons as $title => $description) {
-            $result = $discogsApiService->multipleLanguageSearch($title, $type);
-            $results[$title] = $result;
-            shuffle($results[$title]);
+
+        foreach ($fruits as $fruit) {
+            $result = $discogsApiService->multipleLanguageSearch($fruit->getName(), 'master');
+            $results[$fruit->getName()] = $result;
+            $descriptions[$fruit->getName()] = $fruit->getDescription();
+            shuffle($results[$fruit->getName()]);
         }
-
 
         return $this->render('pages/explorer.html.twig', [
             'title' => 'Explorer',
             'results' => $results,
-            'descriptions' => $descriptons
+            'descriptions' => $descriptions
         ]);
     }
 }

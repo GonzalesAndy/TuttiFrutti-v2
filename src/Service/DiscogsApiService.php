@@ -1,32 +1,31 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Fruit;
+use App\Repository\FruitRepository;
 use Symfony\Component\HttpClient\HttpClient;
 
 class DiscogsApiService
 {
     private $baseUrl = 'https://api.discogs.com';
 
-    private $fruitsDict = array(
-        'pomme' => array('りんご', 'pomme', 'apple'),
-        'banane' => array('バナナ', 'banane'),
-        'fraise' => array('いちご', 'fraise', 'strawberry'),
-        'peche' => array('もも', 'pêche', 'peach'),
-        'poire' => array('なし', 'poire', 'pear'),
-        'framboise' => array('ラズベリー', 'framboise', 'raspberry'),
-        'kiwi' => array('キウイ', 'kiwi', 'kiwi'),
-        'grenade' => array('ざくろ', 'grenade', 'pomegranate')
-    );
+    private $fruitRepository;
+
+    public function __construct(FruitRepository $fruitRepository)
+    {
+        $this->fruitRepository = $fruitRepository;
+    }
 
 
-    public function search($query, $type)
+    public function search($fruit, $type)
     {
         $url = $this->baseUrl . '/database/search';
 
         $httpClient = HttpClient::create();
+
         $response = $httpClient->request('GET', $url, [
             'query' => [
-                'release_title' => $query,
+                'release_title' => $fruit,
                 'type' => $type,
             ],
             'headers' => [
@@ -53,16 +52,16 @@ class DiscogsApiService
         return $tracklist;
     }
 
-    public function multipleLanguageSearch($query, $type)
+    public function multipleLanguageSearch($fruitName, $type)
     {
-        if (array_key_exists($query, $this->fruitsDict)) {
-            $query = $this->fruitsDict[$query];
-        }
-        for ($i = 0; $i < count($query); $i++) {
-            // concatenate the results of each search
-            $result['results'] = $this->search($query[$i], $type)['results'];
+        $fruit = $this->fruitRepository->findByName($fruitName);
 
-        }
-        return $result['results'];
+        $searchResults = [];
+        $searchResults[] = $this->search($fruit->getName(), $type)['results'];
+        $searchResults[] = $this->search($fruit->getEnglish(), $type)['results'];
+        $searchResults[] = $this->search($fruit->getJapanese(), $type)['results'];
+
+        return array_merge(...$searchResults);
     }
+
 }
