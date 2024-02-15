@@ -24,4 +24,21 @@ class DiscogsApiService
 
         return $response->toArray();
     }
+
+    public function getTracklist($id)
+    {
+        $url = $this->baseUrl . '/masters/' . $id;
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', $url, [
+            'headers' => [
+                'Authorization' => 'Discogs key=dTyvSehxTNlwNnVtQAlX, secret=XpzdPJFdIqfHjXqJPUuwsBGsHUXuQUCv',
+            ],
+        ]);
+
+        //only return the tracklist
+
+
+        return $response->toArray();
+    }
 }
