@@ -7,6 +7,18 @@ class DiscogsApiService
 {
     private $baseUrl = 'https://api.discogs.com';
 
+    private $fruitsDict = array(
+        'pomme' => array('りんご', 'pomme', 'apple'),
+        'banane' => array('バナナ', 'banane'),
+        'fraise' => array('いちご', 'fraise', 'strawberry'),
+        'peche' => array('もも', 'pêche', 'peach'),
+        'poire' => array('なし', 'poire', 'pear'),
+        'framboise' => array('ラズベリー', 'framboise', 'raspberry'),
+        'kiwi' => array('キウイ', 'kiwi', 'kiwi'),
+        'grenade' => array('ざくろ', 'grenade', 'pomegranate')
+    );
+
+
     public function search($query, $type)
     {
         $url = $this->baseUrl . '/database/search';
@@ -39,5 +51,18 @@ class DiscogsApiService
         $tracklist = $response->toArray()['tracklist'];
 
         return $tracklist;
+    }
+
+    public function multipleLanguageSearch($query, $type)
+    {
+        if (array_key_exists($query, $this->fruitsDict)) {
+            $query = $this->fruitsDict[$query];
+        }
+        for ($i = 0; $i < count($query); $i++) {
+            // concatenate the results of each search
+            $result['results'] = $this->search($query[$i], $type)['results'];
+
+        }
+        return $result['results'];
     }
 }

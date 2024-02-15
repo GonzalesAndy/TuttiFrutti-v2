@@ -1,4 +1,4 @@
-const suggestions = ['Pomme', 'Banane', 'Fraise', 'Peche', 'Poire'];
+const suggestions = ['Pomme', 'Banane', 'Fraise', 'Peche', 'Poire','Framboise','Kiwi','Grenade'];
 
 // Autocomplete logic
 document.getElementById('search-input').addEventListener('input', function () {

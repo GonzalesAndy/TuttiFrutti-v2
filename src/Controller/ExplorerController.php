@@ -21,9 +21,12 @@ class ExplorerController extends AbstractController
         $results = [];
 
         foreach ($descriptons as $title => $description) {
-            $result = $discogsApiService->search($title, $type);
-            $results[$title] = $result['results'];
+            $result = $discogsApiService->multipleLanguageSearch($title, $type);
+            dump($result);
+            $results[$title] = $result;
+            shuffle($results[$title]);
         }
+
 
         return $this->render('pages/explorer.html.twig', [
             'title' => 'Explorer',
