@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+<div class="form-group">
+    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+    {{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+    {{ form_row(form.japanese, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="form-group">
+    {{ form_row(form.english, {'attr': {'class': 'form-control'}}) }}
+</div>
+<button class="btn {{ button_color|default('btn-outline-primary') }}  mt-3">{{ button_label|default('Save Project') }}</button>
+{{ form_end(form) }}
