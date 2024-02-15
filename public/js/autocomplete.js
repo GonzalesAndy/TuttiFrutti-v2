@@ -1,47 +1,14 @@
 const suggestions = ['Pomme', 'Banane', 'Fraise', 'Peche', 'Poire'];
 
-const separator = () => {
-    return document.createElement('div');
-};
-
+// Autocomplete logic
 document.getElementById('search-input').addEventListener('input', function () {
-    const input = this.value.toLowerCase();
-    const resultsContainer = document.getElementById('autocomplete-results');
-    if (input === '') {
-        if (this.classList.contains('autocomplete-input')) {
-            this.classList.add('navbar-search-input');
-            this.classList.remove('autocomplete-input');
-            resultsContainer.style.display = 'none';
-        }
-    } else {
-
-        const filteredSuggestions = suggestions.filter(suggestion =>
-            suggestion.toLowerCase().startsWith(input)
-        );
-        resultsContainer.innerHTML = '';
-
-        if (filteredSuggestions.length && input !== '') {
-            this.classList.add('autocomplete-input');
-            this.classList.remove('navbar-search-input');
-            resultsContainer.style.display = 'block';
-            filteredSuggestions.forEach(suggestion => {
-                const li = document.createElement('li');
-                li.textContent = suggestion;
-                li.addEventListener('click', () => {
-                    document.getElementById('search-input').value = suggestion;
-                    this.classList.add('navbar-search-input');
-                    this.classList.remove('autocomplete-input');
-                    resultsContainer.style.display = 'none';
-                });
-                resultsContainer.appendChild(li);
-                resultsContainer.appendChild(separator());
-            });
-        } else {
-            resultsContainer.style.display = 'none';
-        }
-    }
+    updateSuggestions(this.value.toLowerCase());
 });
 
+document.getElementById('search-input').addEventListener('click', function () {
+    if (this.value === '')
+        updateSuggestions('');
+});
 
 document.addEventListener('click', function (event) {
     const searchInput = document.getElementById('search-input');
@@ -53,3 +20,49 @@ document.addEventListener('click', function (event) {
         autocompleteResults.style.display = 'none';
     }
 });
+
+function updateSuggestions(input) {
+    const resultsContainer = document.getElementById('autocomplete-results');
+    const filteredSuggestions = input === '' ? suggestions : suggestions.filter(suggestion =>
+        suggestion.toLowerCase().startsWith(input)
+    );
+    resultsContainer.innerHTML = '';
+
+    if (filteredSuggestions.length) {
+        document.getElementById('search-input').classList.add('autocomplete-input');
+        document.getElementById('search-input').classList.remove('navbar-search-input');
+        resultsContainer.style.display = 'block';
+        filteredSuggestions.forEach(suggestion => {
+            const li = document.createElement('li');
+            li.textContent = suggestion;
+            li.addEventListener('click', () => {
+                document.getElementById('search-input').value = suggestion;
+                document.getElementById('search-input').classList.add('navbar-search-input');
+                document.getElementById('search-input').classList.remove('autocomplete-input');
+                resultsContainer.style.display = 'none';
+            });
+            resultsContainer.appendChild(li);
+            resultsContainer.appendChild(document.createElement('div'));
+        });
+    } else {
+        resultsContainer.style.display = 'none';
+    }
+}
+
+// Search logic
+document.getElementById('search-input').addEventListener('keydown', function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        performSearch(this.value);
+    }
+});
+
+document.getElementById('autocomplete-search-button').addEventListener('click', function() {
+    const inputValue = document.getElementById('search-input').value;
+    performSearch(inputValue);
+});
+
+function performSearch(searchQuery) {
+    console.log("Search for: ", searchQuery);
+    window.location.href = 'searchAbout' + searchQuery;
+}

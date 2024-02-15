@@ -1,0 +1,63 @@
+#fruit-title {
+    height: 13rem;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+}
+
+#fruit-title h1 {
+}
+
+#fruit-wrapper {
+    margin: 4rem;
+    padding: 2rem;
+    background-color: #FAF3E6;
+    border-radius: 1rem;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #e1dbd0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#fruit-filter {
+    width: 10rem;
+}
+
+.fruit-filter-divider {
+    border-bottom: 1px solid #ccc;
+}
+
+.fruit-filter-btn {
+    width: 100%;
+    margin: 0.4rem 0 0.4rem 0;
+    padding:  0.5rem 0 0.5rem 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.fruit-filter-btn:hover {
+    background-color: rgb(0,0,0,0.3);
+}
+
+.fruit-filter-btn h4 {
+    margin: 0;
+}
+
+#fruit-all-filter {
+}
+
+#fruit-all-filter label {
+    margin-right: 15px;
+}
+
+.albums-wrapper {
+
+}

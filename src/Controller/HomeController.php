@@ -13,33 +13,46 @@ class HomeController extends AbstractController
 
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private DiscogsApiService $discogsApiService;
+
+    public function __construct(EntityManagerInterface $entityManager, DiscogsApiService $discogsApiService)
     {
         $this->entityManager = $entityManager;
+        $this->discogsApiService = $discogsApiService;
     }
 
 
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        $fruits = ['pomme', 'banane', 'orange', 'fraise'];
-
         return $this->render('pages/home.html.twig', [
             'title' => 'Home',
-            'fruits' => $fruits,
         ]);
     }
 
     #[Route('/test', name: 'test')]
-    public function test(DiscogsApiService $discogsApiService): Response
+    public function test(): Response
     {
         $title = 'banana';
         $type = 'master';
 
-        $result = $discogsApiService->search($title, $type);
+        $result = $this->discogsApiService->search($title, $type);
 
         return $this->render('pages/test.html.twig', [
             'title' => 'Test',
+            'results' => $result['results'],
+        ]);
+    }
+
+    #[Route('/searchAbout{title}', name: 'search')]
+    public function search(string $title): Response
+    {
+        $type = 'master';
+        
+        $result = $this->discogsApiService->search($title, $type);
+
+        return $this->render('pages/results.html.twig', [
+            'title' => $title,
             'results' => $result['results'],
         ]);
     }

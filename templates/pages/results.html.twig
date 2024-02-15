@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/searchAbout.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div id="fruit-title">
+        <h1>{{ title }}</h1>
+    </div>
+    <div id="fruit-wrapper">
+        <div id="fruit-filter">
+            <div id="fruit-active-filter">
+
+            </div>
+            <h3>Tous les filtres</h3>
+            <div style="display: flex; flex-direction: row;">
+                <div id="fruit-all-filter">
+                    <button class="fruit-filter-btn"><h4>Filter1</h4></button>
+                    <button class="fruit-filter-btn">Filter2</button>
+                    <button class="fruit-filter-btn">Filter3</button>
+                    <button class="fruit-filter-btn">Filter4</button>
+                </div>
+                <div class="fruit-filter-divider"></div>
+            </div>
+        </div>
+        <div class="albums-wrapper">
+            {% for result in results %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title
+                            ">{{ result.title }}</h5>
+                                <p class="card-text">{{ result.genre.0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

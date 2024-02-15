@@ -106,6 +106,7 @@ body {
 .navbar-center {
     display: flex;
     align-items: center;
+    padding-left: 3.5rem;
 }
 
 .navbar .navbar-center img {
@@ -211,19 +212,38 @@ span, a {
     position: relative;
 }
 
+#autocomplete-search-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 21%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 0.8rem;
+}
+
+#autocomplete-search-button:hover {
+    background-color: rgb(0,0,0,0.3);
+}
+
 #autocomplete-results {
+    overflow-y: auto;
+    max-height: 10rem;
     list-style: none;
     padding: 0;
     margin: 0;
     background: #FAF3E6;
     position: absolute;
-    width: 99%;
+    width: 100%;
     z-index: 1000;
-    top: 65%;
+    top: 100%;
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
     border-radius: 0 0 0.8rem 0.8rem;
+    box-sizing: border-box;
     box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
