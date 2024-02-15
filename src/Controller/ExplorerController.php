@@ -14,9 +14,7 @@ class ExplorerController extends AbstractController
 
         $descriptons = [
             'banane' => 'La banane, un fruit exotique, des tubes ensoleillés.',
-            'grenade' => 'La grenade, la touche explosive en musique.',
             'pomme' => 'La pomme, le fruit qui donne du croquant aux mélodies.',
-            'kiwi' => 'Le kiwi, de la pulpe verte aux airs enjoués.',
             'fraise' => 'De la graine à la mélodie, les fraises en musique.',
             'framboise' => 'La framboise, un fruit qui donne une couleur unique aux rythmes.'
         ];
