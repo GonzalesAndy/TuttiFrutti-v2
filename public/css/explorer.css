@@ -67,4 +67,20 @@ a {
     background-color: transparent;
     border-color: transparent;
     translate: 0 -30px;
+    cursor: pointer;
+
+}
+
+.slideButton:hover {
+    color: gray;
+}
+
+.albumThumb {
+    height: 150px;
+    width: 150px;
+}
+
+.fruitImage{
+    height: 48px;
+    width: auto;
 }
