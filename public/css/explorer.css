@@ -11,15 +11,20 @@
     display:flex;
     flex-direction: column;
     width: 80%;
-    height: 17rem;
+    height: auto;
     background-color: #fefefe;
     margin-inline: auto;
     border-radius: 1rem;
     margin-bottom: 5rem;
     background-color: #FAF3E6;
+    padding-inline: 1rem;
 }
 
 .fruitExplorerContainerBot {
+    display: flex;
+    overflow-x: scroll;
+    overflow: hidden;
+    scroll-behavior: smooth;
 }
 
 .fruitExplorerContainerTop{
@@ -31,4 +36,35 @@
     width: 3rem;
     height: auto;
     margin-right: 1rem;
+}
+
+.albumCard{
+    display: flex;
+    flex-direction: column;
+    margin-inline: 0.6rem;
+}
+
+a {
+    text-decoration: none !important;
+
+}
+
+.albumTitle {
+    color: black;
+}
+
+.fruitExplorerContainerBotButtons{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.slideButton {
+    font-family: Roboto, sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    color: black;
+    background-color: transparent;
+    border-color: transparent;
+    translate: 0 -30px;
 }
