@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 /**
  * @IsGranted("ROLE_ADMIN")
  */
-#[Route('/fruit')]
+#[Route('/admin')]
 class FruitController extends AbstractController
 {
     #[Route('/', name: 'app_fruit_index', methods: ['GET'])]
