@@ -27,10 +27,25 @@ class ExplorerController extends AbstractController
             shuffle($results[$fruit->getName()]);
         }
 
+        dump($results);
+
         return $this->render('pages/explorer.html.twig', [
             'title' => 'Explorer',
             'results' => $results,
             'descriptions' => $descriptions
+        ]);
+    }
+
+#[Route('/result/{id}', name: 'explorer_show')]
+    public function show(DiscogsApiService $discogsApiService, EntityManagerInterface $entityManager, $id): Response
+    {
+        $result = $discogsApiService->getRelease($id);
+
+        dd($result);
+
+        return $this->render('pages/explorer_show.html.twig', [
+            'title' => 'Explorer',
+            'result' => $result,
         ]);
     }
 }

@@ -64,4 +64,18 @@ class DiscogsApiService
         return array_merge(...$searchResults);
     }
 
+    public function getRelease($id)
+    {
+        $url = $this->baseUrl . '/masters/' . $id;
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', $url, [
+            'headers' => [
+                'Authorization' => 'Discogs key=dTyvSehxTNlwNnVtQAlX, secret=XpzdPJFdIqfHjXqJPUuwsBGsHUXuQUCv',
+            ],
+        ]);
+
+        return $response->toArray();
+    }
+
 }
