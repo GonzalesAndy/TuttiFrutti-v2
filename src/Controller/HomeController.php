@@ -44,7 +44,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/searchAbout{title}', name: 'search')]
+    #[Route('/search/{title}', name: 'search')]
     public function search(string $title): Response
     {
         $type = 'master';
