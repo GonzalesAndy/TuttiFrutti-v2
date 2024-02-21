@@ -5,7 +5,6 @@ use App\Entity\Album;
 use App\Entity\Fruit;
 use App\Entity\Genre;
 use App\Entity\Style;
-use App\Entity\User;
 use App\Service\DiscogsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,16 +78,16 @@ class ExplorerController extends AbstractController
     public function addFavorite(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $albumId = $data['result']['id'];
+        $albumId = $data['id'];
 
         $album = $entityManager->getRepository(Album::class)->find($albumId) ?? (new Album())
             ->setId($albumId)
-            ->setTitle($data['result']['title'])
-            ->setArtist($data['result']['artists'][0]['name'])
-            ->setYear($data['result']['year'])
-            ->setCountry(isset($data['result']['country']) ? $data['result']['country'] : 'Unknown')
-            ->setCoverImage($data['result']['images'][0]['uri'])
-            ->setDiscogLink($data['result']['uri'])
+            ->setTitle($data['title'])
+            ->setArtist($data['artists'][0]['name'])
+            ->setYear($data['year'])
+            ->setCountry(isset($data['country']) ? $data['country'] : 'Unknown')
+            ->setCoverImage($data['images'][0]['uri'])
+            ->setDiscogLink($data['uri'])
             ->setLikes(1);
 
         $this->updateRelationships($entityManager, $album, 'styles', Style::class, 'Style');

@@ -25,25 +25,13 @@
             <script>
 
                 var addFavorite = document.querySelector('.btn');
-
                 addFavorite.addEventListener('click', function(e) {
                     result = {{ result|json_encode|raw }};
-                    e.preventDefault();
-                    fetch('/add-favorite', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ result }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-                    window.location.reload();
+                    //without fetch
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/add-favorite', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(result));
                 });
             </script>
         {% endif %}

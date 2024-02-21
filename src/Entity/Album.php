@@ -43,7 +43,6 @@ class Album
 
     public function __construct()
     {
-        $this->format = new ArrayCollection();
         $this->genre = new ArrayCollection();
         $this->style = new ArrayCollection();
     }
