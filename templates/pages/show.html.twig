@@ -18,29 +18,33 @@
             <img class="albumThumb" src="{{ result.images.0.uri }}">
             <p class="albumTitle"><strong>{{ result.artists.0.name}}</strong><br>{{ result.title }}</p>
         </div>
-        <a href="" class="btn btn-primary">Add Favorite</a>
+        {% if app.user and result.liked == false %}
 
-        <script>
+            <a href="" class="btn btn-primary">Add Favorite</a>
 
-            var addFavorite = document.querySelector('.btn');
+            <script>
 
-            addFavorite.addEventListener('click', function(e) {
-                result = {{ result|json_encode|raw }};
-                e.preventDefault();
-                fetch('/add-favorite', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ result }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+                var addFavorite = document.querySelector('.btn');
+
+                addFavorite.addEventListener('click', function(e) {
+                    result = {{ result|json_encode|raw }};
+                    e.preventDefault();
+                    fetch('/add-favorite', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ result }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                    window.location.reload();
                 });
-            });
-        </script>
+            </script>
+        {% endif %}
 {% endblock %}
