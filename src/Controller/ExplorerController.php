@@ -59,7 +59,7 @@ class ExplorerController extends AbstractController
         ]);
     }
 
-    private function updateRelationships(EntityManagerInterface $entityManager, Album $album, string $field, string $class, string $property)
+    private function updateRelationships(EntityManagerInterface $entityManager, Album $album, string $field, string $class, string $property): void
     {
         if (isset($data['result'][$field])) {
             foreach ($data['result'][$field] as $item) {
@@ -85,7 +85,7 @@ class ExplorerController extends AbstractController
             ->setTitle($data['title'])
             ->setArtist($data['artists'][0]['name'])
             ->setYear($data['year'])
-            ->setCountry(isset($data['country']) ? $data['country'] : 'Unknown')
+            ->setCountry($data['country'] ?? 'Unknown')
             ->setCoverImage($data['images'][0]['uri'])
             ->setDiscogLink($data['uri'])
             ->setLikes(1);
