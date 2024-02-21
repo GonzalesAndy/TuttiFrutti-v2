@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/explorer.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+        <div class="albumCard" style="padding-top: 20%">
+            <img class="albumThumb" src="{{ result.images.0.uri }}">
+            <p class="albumTitle"><strong>{{ result.artists.0.name}}</strong><br>{{ result.title }}</p>
+        </div>
+        <a href="" class="btn btn-primary">Add Favorite</a>
+
+        <script>
+
+            var addFavorite = document.querySelector('.btn');
+
+            addFavorite.addEventListener('click', function(e) {
+                result = {{ result|json_encode|raw }};
+                e.preventDefault();
+                fetch('/add-favorite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ result }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+{% endblock %}

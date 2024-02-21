@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Album
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
@@ -36,9 +35,6 @@ class Album
     #[ORM\Column]
     private ?int $likes = null;
 
-    #[ORM\ManyToMany(targetEntity: Format::class, inversedBy: 'albums')]
-    private Collection $format;
-
     #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'albums')]
     private Collection $genre;
 
@@ -50,6 +46,13 @@ class Album
         $this->format = new ArrayCollection();
         $this->genre = new ArrayCollection();
         $this->style = new ArrayCollection();
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -137,30 +140,6 @@ class Album
     public function setLikes(int $likes): static
     {
         $this->likes = $likes;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Format>
-     */
-    public function getFormat(): Collection
-    {
-        return $this->format;
-    }
-
-    public function addFormat(Format $format): static
-    {
-        if (!$this->format->contains($format)) {
-            $this->format->add($format);
-        }
-
-        return $this;
-    }
-
-    public function removeFormat(Format $format): static
-    {
-        $this->format->removeElement($format);
 
         return $this;
     }
