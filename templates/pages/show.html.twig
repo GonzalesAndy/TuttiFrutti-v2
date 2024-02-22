@@ -16,9 +16,27 @@
 {% block body %}
     <div class="AlbumContainer">
         <div class="AlbumContainerTop">
+
+            {# Affichage infos de base #}
             <div clss="AlbumInfos">
-                <p class="albumTitle" ><strong>{{ result.title }}</strong><br><br><i>{{ result.artists.0.name}}</i></p>
+
+                {# Affichage du titre si présent #}
+                {% if result.title is not null %}
+                    <h3>{{ result.title }}</h3><br><br>
+                {% endif %}
+
+                {# Affichage de l'artiste si présent #}
+                {% if result.artists.0.name is not null %}
+                    <i>{{ result.artists.0.name}}</i>
+                {% endif %}
+
+                {# Affichage année de sortie si présente #}
+                {% if result.year is not null %}
+                     | <i>{{ result.year}}</i>
+                {% endif %}
             </div>
+
+            {#Affichage de la cover ou d'une cover par défaut#}
             {% if result.images.0.uri is defined %}
                 <img class="albumThumbnail" width="150" src="{{ result.images.0.uri }}" alt="album thumbnail">
             {% else %}
@@ -26,13 +44,13 @@
             {% endif %}
         </div>
 
+        {#Affichage du bouton like si connecté et pas liké#}
         {% if app.user and result.liked == false %}
-            <a href="" class="btn btn-primary">Add Favorite</a>
+            <a href="" class="btn btn-primary" id="likeBtn">&#9829; Favorite &#9829;</a>
             <script>
                 var addFavorite = document.querySelector('.btn');
                 addFavorite.addEventListener('click', function(e) {
                     result = {{ result|json_encode|raw }};
-                    //without fetch
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', '/add-favorite', true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -41,24 +59,35 @@
             </script>
         {% endif %}
 
-        <div class="AlbumContainerBot">
-            {%  for track in result.tracklist %}
-             <p class="albumTrack">{{ track.title }}
-                {% if track.duration != "" %}
-                    | <i>{{ track.duration }}</i>
-                {% endif %}
-            </p>
-            {% endfor %}
+        <div class="AlbumContainerBot"><br>
 
-            |{% for genre in result.genres %}
-                {% if genre != result.genres[0] %}
-                     - <i>{{ genre }}</i>
-                {% else %}
-                    <i>{{ genre }}</i>
-                {% endif %}
-            {% endfor %}|
+            {#Affichage de la tracklist si présente#}
+            {% if result.tracklist is not empty %}
+                <h3>Tracklist :</h3>
+                {%  for track in result.tracklist %}
+                <p class="albumTrack">{{ track.title }}
+                    {% if track.duration != "" %}
+                        | <i>{{ track.duration }}</i>
+                    {% endif %}
+                </p>
+                {% endfor %}
+            {% endif %}
 
-            <br><a href="{{ result.uri }}">See on discogs</a>
+            {#Affichage des genres si présents#}
+            {% if result.genres is not empty %}
+                |{% for genre in result.genres %}
+                    {% if genre != result.genres[0] %}
+                        - <i>{{ genre }}</i>
+                    {% else %}
+                        <i>{{ genre }}</i>
+                    {% endif %}
+                {% endfor %}|
+            {% endif %}<br><br>
+
+            {#Affichage d'un lien vers discogs si présent#}
+            {% if result.uri is not null %}
+                <a href="{{ result.uri }}">See on discogs</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

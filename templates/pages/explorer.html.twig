@@ -30,15 +30,15 @@
                                     <img class="albumThumb" src="{{ result.thumb }}">
                                     <p class="albumTitle">
                                         <strong>
+                                            {{ result.title|split(' - ')[1]|slice(0,17)}}
+                                            {% if result.title|split(' - ')[1]|length > 17 %}
+                                                ...
+                                            {% endif %}
+                                        </strong><br><i>
                                             {{ result.title|split(' - ')[0]|slice(0,20)}}
                                             {% if result.title|split(' - ')[0]|length > 20 %}
                                                 ...
-                                            {% endif %}
-                                        </strong><br>
-                                            {{ result.title|split(' - ')[1]|slice(0,20)}}
-                                            {% if result.title|split(' - ')[1]|length > 20 %}
-                                                ...
-                                            {% endif %}
+                                            {% endif %}</i>
                                     </p>
                                 </div>
                             </a>
@@ -85,7 +85,7 @@
                             ${-center.y / 100},
                             ${center.x / 100},
                             0,
-                            ${Math.log(distance) * 2}deg
+                            ${Math.log(distance) * 3}deg
                         )
                         `;
                     }
