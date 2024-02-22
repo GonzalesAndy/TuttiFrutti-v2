@@ -26,15 +26,14 @@ class FruitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_fruit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FruitRepository $repository): Response
     {
         $fruit = new Fruit();
         $form = $this->createForm(FruitType::class, $fruit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($fruit);
-            $entityManager->flush();
+            $repository->save($fruit);
 
             return $this->redirectToRoute('app_fruit_index', [], Response::HTTP_SEE_OTHER);
         }

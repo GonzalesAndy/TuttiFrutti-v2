@@ -31,6 +31,12 @@ class FruitRepository extends ServiceEntityRepository
         ;
     }
 
+    public function save(Fruit $fruit): void
+    {
+        $this->getEntityManager()->persist($fruit);
+        $this->getEntityManager()->flush();
+    }
+
 
 //    /**
 //     * @return Fruit[] Returns an array of Fruit objects

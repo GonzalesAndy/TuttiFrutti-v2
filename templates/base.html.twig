@@ -51,6 +51,7 @@
                     <ul>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li><a href="/logout"><i class="fa-solid fa-sign-out"></i>&nbsp;Déconnexion</a></li>
+                            <p>Bonjour {{ app.user.username }}</p>
                         {% else %}
                             <li><a href="/login"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Connexion</a></li>
                             <li><a href="/register"><i class="fa-solid fa-envelope-simple"></i>&nbsp;Inscription</a></li>

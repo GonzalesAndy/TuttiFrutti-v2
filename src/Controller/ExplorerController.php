@@ -6,6 +6,9 @@ use App\Entity\Fruit;
 use App\Entity\Genre;
 use App\Entity\Style;
 use App\Entity\Tracklist;
+use App\Repository\AlbumRepository;
+use App\Repository\TracklistRepository;
+use App\Repository\UserRepository;
 use App\Service\DiscogsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,8 +64,8 @@ class ExplorerController extends AbstractController
                 'tracklist' => $album->getTrack()->map(fn(Tracklist $track) => [
                     'title' => $track->getTitle(),
                     'duration' => $track->getDuration(),
-                'genre' => $album->getGenres()->map(fn(Genre $genre) => $genre->getGenre())->toArray(),
-                'style' => $album->getStyles()->map(fn(Style $style) => $style->getStyle())->toArray(),
+                'genres' => $album->getGenre()->map(fn(Genre $genre) => $genre->getGenre())->toArray(),
+                'styles' => $album->getStyle()->map(fn(Style $style) => $style->getStyle())->toArray(),
                 ])->toArray()
             ];
             if ($this->getUser()) {
@@ -89,7 +92,7 @@ class ExplorerController extends AbstractController
                 if (!$entity) {
                     $entity = new $class();
                     $entity->{"set$property"}($item);
-                    $entityManager->persist($entity);
+                    $entity->save($entity);
                 }
                 $album->{"add$field"}($entity);
             }
@@ -100,7 +103,7 @@ class ExplorerController extends AbstractController
      * Permet d'ajouter un album aux favoris de l'utilisateur connecté
      */
     #[Route('/add-favorite', name: 'add_favorite', methods: ['POST'])]
-    public function addFavorite(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    public function addFavorite(EntityManagerInterface $entityManager, Request $request, TracklistRepository $tracklistRepository, AlbumRepository $albumRepository, UserRepository $userRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $albumId = $data['id'];
@@ -126,7 +129,7 @@ class ExplorerController extends AbstractController
                     $tracklist->setDuration($track['duration']);
                 }
                 $album->addTrack($tracklist);
-                $entityManager->persist($tracklist);
+                $tracklistRepository->save($tracklist);
             }
         }
 
@@ -135,9 +138,8 @@ class ExplorerController extends AbstractController
         $user = $this->getUser();
         $user->addFavorite($album);
 
-        $entityManager->persist($album);
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $albumRepository->save($album);
+        $userRepository->save($user);
 
         return new JsonResponse('success', 200);
     }
@@ -147,16 +149,15 @@ class ExplorerController extends AbstractController
      * Permet de retirer un album des favoris de l'utilisateur connecté
      */
     #[Route('/remove-favorite', name: 'remove_favorite', methods: ['POST'])]
-    public function removeFavorite(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    public function removeFavorite(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository, AlbumRepository $albumRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $album = $entityManager->getRepository(Album::class)->find($data['result']['id']);
         $user = $this->getUser();
         $user->removeFavorite($album);
-        $entityManager->persist($user);
+        $userRepository->save($user);
         $album->setLikes($album->getLikes() - 1);
-        $entityManager->persist($album);
-        $entityManager->flush();
+        $albumRepository->save($album);
         return new JsonResponse('success', 200);
     }
 

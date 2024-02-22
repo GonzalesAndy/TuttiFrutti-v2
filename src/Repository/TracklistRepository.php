@@ -21,6 +21,16 @@ class TracklistRepository extends ServiceEntityRepository
         parent::__construct($registry, Tracklist::class);
     }
 
+    public function save(Tracklist $tracklist): void
+    {
+        $this->getEntityManager()->persist($tracklist);
+    }
+
+    public function hardSave(Tracklist $tracklist): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
 //    /**
 //     * @return Tracklist[] Returns an array of Tracklist objects
 //     */
