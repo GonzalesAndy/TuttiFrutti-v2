@@ -1,3 +1,4 @@
+
 {% extends "base.html.twig" %}
 
 {% block title %}
@@ -16,11 +17,14 @@
 {% block body %}
         <div class="albumCard" style="padding-top: 20%">
             {% if result.images.0.uri is defined %}
-                <img class="albumThumbnail" src="{{ result.images.0.uri }}" alt="album thumbnail">
+                <img class="albumThumbnail" width="150" src="{{ result.images.0.uri }}" alt="album thumbnail">
             {% else %}
                 <img class="albumThumbnail" width="150" src='https://m.media-amazon.com/images/I/61QbG3IAqlL._AC_UF350,350_QL80_.jpg' alt="album thumbnail">
             {% endif %}
-            <p class="albumTitle"><strong>{{ result.artists.0.name}}</strong><br>{{ result.title }}</p>
+            <p class="albumTitle" ><strong>{{ result.artists.0.name}}</strong><br>{{ result.title }}</p>
+            {%  for track in result.tracklist %}
+                <p class="albumTrack">{{ track.duration }} {{ track.title }}</p>
+            {% endfor %}
         </div>
         {% if app.user and result.liked == false %}
 

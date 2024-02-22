@@ -157,4 +157,15 @@ class ExplorerController extends AbstractController
         $entityManager->flush();
         return new JsonResponse('success', 200);
     }
+
+    #[Route('/favorite', name: 'favorite')]
+    public function favorite(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $favorite = $this->getUser()->getFavorite();
+        return $this->render('pages/favorite.html.twig', [
+            'title' => 'Favorite',
+            'favorite' => $favorite
+        ]);
+    }
 }
