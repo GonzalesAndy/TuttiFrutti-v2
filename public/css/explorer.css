@@ -8,6 +8,7 @@
 }
 
 .fruitExplorerContainer {
+    perspective: 1500px;
     display:flex;
     flex-direction: column;
     width: 80%;
@@ -90,17 +91,7 @@ a {
     transform: rotate3d(0);
 }
 
-.albumThumb {
-    transition-duration: 150ms;
-    box-shadow: 0 5px 20px 5px #00000044;
-    image-rendering: optimizeSpeed;
-}
-
 .fruitImage{
     height: 48px;
     width: auto;
-}
-
-body {
-    perspective: 1500px;
 }

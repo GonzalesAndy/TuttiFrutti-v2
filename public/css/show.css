@@ -15,9 +15,10 @@
 }
 
 .albumThumbnail {
+    margin-top: 1rem;
     margin-inline: auto;
     height: 250px;
-    width: auto
+    width: auto;
 }
 
 a.btn.btn-primary {
@@ -26,4 +27,23 @@ a.btn.btn-primary {
 
 .AlbumContainerBot {
     text-align: center;
+}
+
+#likeBtn {
+    padding: 0.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    background-color: transparent;
+    border: 2px white solid;
+    color: black;
+    font-size: 18px;
+    transition: ease-in-out;
+    transition-duration: 0.2s;
+    margin-top: 1rem;
+}
+
+#likeBtn:hover {
+    background-color: pink;
+    transition: ease-in-out;
+    transition-duration: 0.2s;
 }

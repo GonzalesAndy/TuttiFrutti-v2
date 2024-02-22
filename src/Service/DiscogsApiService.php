@@ -55,13 +55,8 @@ class DiscogsApiService
     public function multipleLanguageSearch($fruitName, $type)
     {
         $fruit = $this->fruitRepository->findByName($fruitName);
-
-        $searchResults = [];
-        $searchResults[] = $this->search($fruit->getName(), $type)['results'];
-        $searchResults[] = $this->search($fruit->getEnglish(), $type)['results'];
-        $searchResults[] = $this->search($fruit->getJapanese(), $type)['results'];
-
-        return array_merge(...$searchResults);
+        $searchResults = $this->search($fruit->getName()."||".$fruit->getJapanese()."||".$fruit->getEnglish(),$type)['results'];
+        return $searchResults;
     }
 
     public function getRelease($id)
