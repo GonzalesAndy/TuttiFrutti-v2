@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Fruit;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\DiscogsApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,11 +25,25 @@ class HomeController extends AbstractController
 
 
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
+        $fruits = $entityManager->getRepository(Fruit::class)->findAll();
         return $this->render('pages/home.html.twig', [
             'title' => 'Home',
+            'fruits' => $fruits,
         ]);
+    }
+
+    #[Route('/autocompleteList', name: 'autocompleteList', methods: ['GET'])]
+    public function autocompleteList(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $fruits = $entityManager->getRepository(className: Fruit::class)->findAll();
+
+        $fruitNames = array_map(function($fruit) {
+            return $fruit->getName();
+        }, $fruits);
+
+        return $this->json($fruitNames);
     }
 
     #[Route('/test', name: 'test')]

@@ -16,7 +16,7 @@
 {% block body %}
     <div class="AlbumContainer">
         <div class="AlbumContainerTop">
-            <div clss="AlbumInfos">
+            <div class="AlbumInfos">
                 <p class="albumTitle" ><strong>{{ result.title }}</strong><br><br><i>{{ result.artists.0.name}}</i></p>
             </div>
             {% if result.images.0.uri is defined %}
@@ -29,11 +29,11 @@
         {% if app.user and result.liked == false %}
             <a href="" class="btn btn-primary">Add Favorite</a>
             <script>
-                var addFavorite = document.querySelector('.btn');
+                const addFavorite = document.querySelector('.btn');
                 addFavorite.addEventListener('click', function(e) {
-                    result = {{ result|json_encode|raw }};
+                    const result = {{ result|json_encode|raw }};
                     //without fetch
-                    var xhr = new XMLHttpRequest();
+                    const xhr = new XMLHttpRequest();
                     xhr.open('POST', '/add-favorite', true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify(result));
