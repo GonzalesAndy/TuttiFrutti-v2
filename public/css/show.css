@@ -1,0 +1,29 @@
+.AlbumContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    padding-top: 5rem;
+    width: fit-content;
+    margin-inline: auto;
+}
+
+.AlbumContainerTop {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    text-align: center;
+}
+
+.albumThumbnail {
+    margin-inline: auto;
+    height: 250px;
+    width: auto
+}
+
+a.btn.btn-primary {
+    text-align: center;
+}
+
+.AlbumContainerBot {
+    text-align: center;
+}
