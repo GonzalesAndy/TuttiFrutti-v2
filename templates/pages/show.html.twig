@@ -15,7 +15,11 @@
 
 {% block body %}
         <div class="albumCard" style="padding-top: 20%">
-            <img class="albumThumb" src="{{ result.images.0.uri }}">
+            {% if result.images.0.uri is defined %}
+                <img class="albumThumbnail" src="{{ result.images.0.uri }}" alt="album thumbnail">
+            {% else %}
+                <img class="albumThumbnail" width="150" src='https://m.media-amazon.com/images/I/61QbG3IAqlL._AC_UF350,350_QL80_.jpg' alt="album thumbnail">
+            {% endif %}
             <p class="albumTitle"><strong>{{ result.artists.0.name}}</strong><br>{{ result.title }}</p>
         </div>
         {% if app.user and result.liked == false %}

@@ -41,10 +41,14 @@ class Album
     #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'albums')]
     private Collection $style;
 
+    #[ORM\OneToMany(targetEntity: Tracklist::class, mappedBy: 'id_album', orphanRemoval: true)]
+    private Collection $track;
+
     public function __construct()
     {
         $this->genre = new ArrayCollection();
         $this->style = new ArrayCollection();
+        $this->track = new ArrayCollection();
     }
 
     public function setId(int $id): static
@@ -187,6 +191,36 @@ class Album
     public function removeStyle(Style $style): static
     {
         $this->style->removeElement($style);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tracklist>
+     */
+    public function getTrack(): Collection
+    {
+        return $this->track;
+    }
+
+    public function addTrack(Tracklist $track): static
+    {
+        if (!$this->track->contains($track)) {
+            $this->track->add($track);
+            $track->setIdAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrack(Tracklist $track): static
+    {
+        if ($this->track->removeElement($track)) {
+            // set the owning side to null (unless already changed)
+            if ($track->getIdAlbum() === $this) {
+                $track->setIdAlbum(null);
+            }
+        }
 
         return $this;
     }

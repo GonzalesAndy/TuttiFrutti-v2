@@ -5,6 +5,7 @@ use App\Entity\Album;
 use App\Entity\Fruit;
 use App\Entity\Genre;
 use App\Entity\Style;
+use App\Entity\Tracklist;
 use App\Service\DiscogsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ExplorerController extends AbstractController
 {
+    /*
+     * Permet d'afficher les résultats de recherche pour 3 fruits pris aléatoirement
+     */
     #[Route('/explorer', name: 'explorer')]
     public function explorer(DiscogsApiService $discogsApiService, EntityManagerInterface $entityManager): Response
     {
@@ -38,27 +42,43 @@ class ExplorerController extends AbstractController
         ]);
     }
 
+    /*
+     * Permet d'afficher les détails d'une musique
+     */
     #[Route('/result/{id}', name: 'explorer_show')]
     public function show(DiscogsApiService $discogsApiService, EntityManagerInterface $entityManager, $id): Response
     {
-        $result = $discogsApiService->getRelease($id);
-        $result['liked'] = false;
-        $user = $this->getUser();
-        if ($user) {
-            $album = $entityManager->getRepository(Album::class)->find($result['id']);
-            if ($album) {
-                if ($user->getFavorite()->contains($album)) {
-                    $result['liked'] = true;
-                }
+        $album = $entityManager->getRepository(Album::class)->find($id);
+        if ($album) {
+            $result = [
+                'id' => $album->getId(),
+                'title' => $album->getTitle(),
+                'artists' => [['name' => $album->getArtist()]],
+                'year' => $album->getYear(),
+                'country' => $album->getCountry(),
+                'images' => [['uri' => $album->getCoverImage()]],
+                'uri' => $album->getDiscogLink(),
+                'tracklist' => $album->getTrack()->map(fn(Tracklist $track) => [
+                    'title' => $track->getTitle(),
+                    'duration' => $track->getDuration()
+                ])->toArray()
+            ];
+            if ($this->getUser()) {
+                $result['liked'] = $this->getUser()->getFavorite()->contains($album);
             }
+        } else {
+            $result = $discogsApiService->getRelease($id);
+            $result['liked'] = false;
         }
-        dump($result);
         return $this->render('pages/show.html.twig', [
             'title' => 'Explorer',
-            'result' => $result,
+            'result' => $result
         ]);
     }
 
+    /*
+     * Permet d'ajouter les genres et styles d'un album
+     */
     private function updateRelationships(EntityManagerInterface $entityManager, Album $album, string $field, string $class, string $property): void
     {
         if (isset($data['result'][$field])) {
@@ -74,6 +94,9 @@ class ExplorerController extends AbstractController
         }
     }
 
+    /*
+     * Permet d'ajouter un album aux favoris de l'utilisateur connecté
+     */
     #[Route('/add-favorite', name: 'add_favorite', methods: ['POST'])]
     public function addFavorite(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
@@ -84,14 +107,26 @@ class ExplorerController extends AbstractController
             ->setId($albumId)
             ->setTitle($data['title'])
             ->setArtist($data['artists'][0]['name'])
-            ->setYear($data['year'])
+            ->setYear($data['year'] ?? 0)
             ->setCountry($data['country'] ?? 'Unknown')
-            ->setCoverImage($data['images'][0]['uri'])
+            ->setCoverImage($data['images'][0]['uri'] ?? 'https://m.media-amazon.com/images/I/61QbG3IAqlL._AC_UF350,350_QL80_.jpg')
             ->setDiscogLink($data['uri'])
             ->setLikes(1);
 
         $this->updateRelationships($entityManager, $album, 'styles', Style::class, 'Style');
         $this->updateRelationships($entityManager, $album, 'genres', Genre::class, 'Genre');
+        // add tracklist
+        if (isset($data['tracklist'])) {
+            foreach ($data['tracklist'] as $track) {
+                $tracklist = new Tracklist();
+                $tracklist->setTitle($track['title']);
+                if (isset($track['duration'])) {
+                    $tracklist->setDuration($track['duration']);
+                }
+                $album->addTrack($tracklist);
+                $entityManager->persist($tracklist);
+            }
+        }
 
         $album->setLikes($album->getLikes() + 1);
 
@@ -106,6 +141,9 @@ class ExplorerController extends AbstractController
     }
 
 
+    /*
+     * Permet de retirer un album des favoris de l'utilisateur connecté
+     */
     #[Route('/remove-favorite', name: 'remove_favorite', methods: ['POST'])]
     public function removeFavorite(EntityManagerInterface $entityManager, Request $request): JsonResponse
     {
