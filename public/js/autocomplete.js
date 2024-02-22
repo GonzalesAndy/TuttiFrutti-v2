@@ -64,5 +64,5 @@ document.getElementById('autocomplete-search-button').addEventListener('click', 
 
 function performSearch(searchQuery) {
     console.log("Search for: ", searchQuery);
-    window.location.href = '/search/' + searchQuery;
+    window.location.href = '/search' + searchQuery + '/1';
 }
