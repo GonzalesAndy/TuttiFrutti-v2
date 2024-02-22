@@ -60,7 +60,9 @@ class ExplorerController extends AbstractController
                 'uri' => $album->getDiscogLink(),
                 'tracklist' => $album->getTrack()->map(fn(Tracklist $track) => [
                     'title' => $track->getTitle(),
-                    'duration' => $track->getDuration()
+                    'duration' => $track->getDuration(),
+                'genre' => $album->getGenres()->map(fn(Genre $genre) => $genre->getGenre())->toArray(),
+                'style' => $album->getStyles()->map(fn(Style $style) => $style->getStyle())->toArray(),
                 ])->toArray()
             ];
             if ($this->getUser()) {
