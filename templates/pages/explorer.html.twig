@@ -28,10 +28,18 @@
                             <a href="/result/{{ result.id }}">
                                 <div class="albumCard">
                                     <img class="albumThumb" src="{{ result.thumb }}">
-                                    <p class="albumTitle"><strong>{{ result.title|split(' - ')[0] }}</strong><br>{{ result.title|split(' - ')[1]|slice(0,20)}}
-                                        {% if result.title|split(' - ')[1]|length > 20 %}
-                                            ...
-                                        {% endif %}</p>
+                                    <p class="albumTitle">
+                                        <strong>
+                                            {{ result.title|split(' - ')[0]|slice(0,20)}}
+                                            {% if result.title|split(' - ')[0]|length > 20 %}
+                                                ...
+                                            {% endif %}
+                                        </strong><br>
+                                            {{ result.title|split(' - ')[1]|slice(0,20)}}
+                                            {% if result.title|split(' - ')[1]|length > 20 %}
+                                                ...
+                                            {% endif %}
+                                    </p>
                                 </div>
                             </a>
                         {% endfor %}
@@ -50,6 +58,52 @@
                 buttonLeft_{{ fruitKey }}.onclick = function () {
                     document.getElementById('{{ 'containerBot_' ~ fruitKey }}').scrollLeft -= 300;
                 };
+
+
+                function addCardListeners(container) {
+                const cards = container.querySelectorAll('.albumThumb');
+
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                    const bounds = this.getBoundingClientRect();
+                    const currentCard = this;
+
+                    function rotateToMouse(e) {
+                        const mouseX = e.clientX;
+                        const mouseY = e.clientY;
+                        const leftX = mouseX - bounds.x;
+                        const topY = mouseY - bounds.y;
+                        const center = {
+                        x: leftX - bounds.width / 2,
+                        y: topY - bounds.height / 2
+                        };
+                        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
+
+                        currentCard.style.transform = `
+                        scale3d(1.07, 1.07, 1.07)
+                        rotate3d(
+                            ${-center.y / 100},
+                            ${center.x / 100},
+                            0,
+                            ${Math.log(distance) * 2}deg
+                        )
+                        `;
+                    }
+
+                    document.addEventListener('mousemove', rotateToMouse);
+
+                    this.addEventListener('mouseleave', function() {
+                        document.removeEventListener('mousemove', rotateToMouse);
+                        this.style.transform = '';
+                        this.style.background = '';
+                    });
+                    });
+                });
+                }
+
+                {% for fruitKey, fruitResults in results %}
+                    addCardListeners(document.getElementById('{{ 'containerBot_' ~ fruitKey }}'));
+                {% endfor %}
             </script>
         {% endfor %}
     </div>

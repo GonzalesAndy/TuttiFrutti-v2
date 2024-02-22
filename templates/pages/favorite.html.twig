@@ -1,0 +1,28 @@
+
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/explorer.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for album in favorite %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{ album.title }}</h2>
+                    <p>{{ album.artist }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

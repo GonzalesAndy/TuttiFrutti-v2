@@ -21,6 +21,12 @@ class StyleRepository extends ServiceEntityRepository
         parent::__construct($registry, Style::class);
     }
 
+    public function save(Style $style): void
+    {
+        $this->getEntityManager()->persist($style);
+        $this->getEntityManager()->flush();
+    }
+
 //    /**
 //     * @return Style[] Returns an array of Style objects
 //     */

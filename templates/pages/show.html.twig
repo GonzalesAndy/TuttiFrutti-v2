@@ -6,7 +6,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/explorer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/show.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -14,16 +14,21 @@
 {% endblock %}
 
 {% block body %}
-        <div class="albumCard" style="padding-top: 20%">
-            <img class="albumThumb" src="{{ result.images.0.uri }}">
-            <p class="albumTitle"><strong>{{ result.artists.0.name}}</strong><br>{{ result.title }}</p>
+    <div class="AlbumContainer">
+        <div class="AlbumContainerTop">
+            <div clss="AlbumInfos">
+                <p class="albumTitle" ><strong>{{ result.title }}</strong><br><br><i>{{ result.artists.0.name}}</i></p>
+            </div>
+            {% if result.images.0.uri is defined %}
+                <img class="albumThumbnail" width="150" src="{{ result.images.0.uri }}" alt="album thumbnail">
+            {% else %}
+                <img class="albumThumbnail" width="150" src='https://m.media-amazon.com/images/I/61QbG3IAqlL._AC_UF350,350_QL80_.jpg' alt="album thumbnail">
+            {% endif %}
         </div>
+
         {% if app.user and result.liked == false %}
-
             <a href="" class="btn btn-primary">Add Favorite</a>
-
             <script>
-
                 var addFavorite = document.querySelector('.btn');
                 addFavorite.addEventListener('click', function(e) {
                     result = {{ result|json_encode|raw }};
@@ -35,4 +40,25 @@
                 });
             </script>
         {% endif %}
+
+        <div class="AlbumContainerBot">
+            {%  for track in result.tracklist %}
+             <p class="albumTrack">{{ track.title }}
+                {% if track.duration != "" %}
+                    | <i>{{ track.duration }}</i>
+                {% endif %}
+            </p>
+            {% endfor %}
+
+            |{% for genre in result.genres %}
+                {% if genre != result.genres[0] %}
+                     - <i>{{ genre }}</i>
+                {% else %}
+                    <i>{{ genre }}</i>
+                {% endif %}
+            {% endfor %}|
+
+            <br><a href="{{ result.uri }}">See on discogs</a>
+        </div>
+    </div>
 {% endblock %}

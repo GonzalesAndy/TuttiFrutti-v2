@@ -15,7 +15,7 @@
 
 {% block body %}
     <main>
-        <h1>“Bienvenue sur TuttiFrutti. J'espère que vous passerez un délicieux moment„</h1>
+        <h1>{% if is_granted('IS_AUTHENTICATED_FULLY') %}Bonjour {{ app.user.username }} <br>{% endif %}“Bienvenue sur TuttiFrutti. J'espère que vous passerez un délicieux moment„</h1>
         {{ include('paralax.html.twig') }}
     </main>
 
