@@ -63,10 +63,9 @@ class ExplorerController extends AbstractController
                 'uri' => $album->getDiscogLink(),
                 'tracklist' => $album->getTrack()->map(fn(Tracklist $track) => [
                     'title' => $track->getTitle(),
-                    'duration' => $track->getDuration(),
+                    'duration' => $track->getDuration()])->toArray(),
                 'genres' => $album->getGenre()->map(fn(Genre $genre) => $genre->getGenre())->toArray(),
                 'styles' => $album->getStyle()->map(fn(Style $style) => $style->getStyle())->toArray(),
-                ])->toArray()
             ];
             if ($this->getUser()) {
                 $result['liked'] = $this->getUser()->getFavorite()->contains($album);
