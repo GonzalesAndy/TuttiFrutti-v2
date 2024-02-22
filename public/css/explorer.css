@@ -39,6 +39,7 @@
 }
 
 .albumCard{
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     margin-inline: 0.6rem;
@@ -78,9 +79,25 @@ a {
 .albumThumb {
     height: 150px;
     width: 150px;
+
+    box-shadow: 0 1px 5px #00000099;
+    transition-duration: 300ms;
+    transition-property: transform, box-shadow;
+    transition-timing-function: ease-out;
+    transform: rotate3d(0);
+}
+
+.albumThumb {
+    transition-duration: 150ms;
+    box-shadow: 0 5px 20px 5px #00000044;
+    image-rendering: optimizeSpeed;
 }
 
 .fruitImage{
     height: 48px;
     width: auto;
+}
+
+body {
+    perspective: 1500px;
 }
