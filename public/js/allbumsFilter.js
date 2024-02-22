@@ -37,8 +37,7 @@ const fillColor = () => {
 // Filter logic
 const originalItemsArray = Array.from(document.querySelectorAll('.sortable-item'));
 
-function baseEventListener(name, customBehavior = () => {
-}) {
+function baseEventListener(name, customBehaviorOne = () => {}, customBehaviorTwo = () => {}) {
     const divFilter = document.getElementById('fruit-active-filter');
     const existingButtons = divFilter.children;
     let exists = false;
@@ -50,9 +49,9 @@ function baseEventListener(name, customBehavior = () => {
             break;
         }
     }
-    customBehavior();
 
     if (!exists) {
+        customBehaviorTwo();
         const btn = document.createElement('button');
         btn.innerHTML = '&#x2716; ' + name;
         btn.className = 'fruit-filter-active-btn';
@@ -60,7 +59,7 @@ function baseEventListener(name, customBehavior = () => {
 
         btn.addEventListener('click', function () {
             document.getElementById('fruit-active-filter').removeChild(this);
-            customBehavior();
+            customBehaviorOne();
             setNewOrder(originalItemsArray);
         });
 
@@ -70,10 +69,11 @@ function baseEventListener(name, customBehavior = () => {
 
 
 document.getElementById('fruit-filter-genre').addEventListener('click', function () {
-    baseEventListener(this.name, () => {
+    const applyFilterByGenre = () => {
         const uniqueGenres = new Set();
+        const currentItemArray = Array.from(document.querySelectorAll('.sortable-item'));
 
-        originalItemsArray.forEach(element => {
+        currentItemArray.forEach(element => {
             const genres = element.getAttribute('data-genres').split(',');
             genres.forEach((genre) => {
                 const genreCleanStr = genre.replace(/\W/g, '');
@@ -81,7 +81,11 @@ document.getElementById('fruit-filter-genre').addEventListener('click', function
             });
         });
 
-        setOrderByGenre(Array.from(uniqueGenres).sort());
+        setOrderByGenre(Array.from(uniqueGenres).sort(), currentItemArray);
+    }
+
+    baseEventListener(this.name, undefined, () => {
+        applyFilterByGenre();
     });
 });
 
@@ -90,6 +94,9 @@ document.getElementById('fruit-filter-annee').addEventListener('click', function
         const sliderWrapper = document.getElementById('slider-wrapper');
         sliderWrapper.style.visibility = sliderWrapper.style.visibility === 'visible' ? 'hidden' : 'visible';
     });
+
+    const sliderWrapper = document.getElementById('slider-wrapper');
+    sliderWrapper.style.visibility = sliderWrapper.style.visibility === 'visible' ? 'hidden' : 'visible';
 });
 
 document.getElementById('slider-1').addEventListener('change', function () {
@@ -136,25 +143,35 @@ const setNewOrder = (itemsArray) => {
     }
 }
 
-const setOrderByGenre = (genres) => {
+const setOrderByGenre = (genres, currentItemArray) => {
     const orderedByGenre = [];
 
     genres.forEach(genre => {
-        const genreItems = originalItemsArray.filter(album => {
+        const genreItems = currentItemArray.filter(album => {
             const localGenres = album.getAttribute('data-genres').split(',').map(genre => genre.replace(/\W/g, ''));
             return localGenres.includes(genre);
         });
         orderedByGenre.push(genreItems);
     });
 
-    console.log(genres, orderedByGenre)
     const container = document.querySelector('.albums-wrapper');
     container.innerHTML = '';
 
     orderedByGenre.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; flex-direction: column; width: 100%';
         const h2 = document.createElement('h2');
         h2.innerHTML = genres[index];
-        container.appendChild(h2);
-        item.forEach(album => {container.appendChild(album);})
+        h2.className = 'albums-genre';
+        const divider = document.createElement('div');
+        divider.className = 'albums-genre-divider';
+        div.appendChild(h2);
+        div.appendChild(divider);
+        container.appendChild(div);
+
+        item.forEach(album => {
+            const clone = album.cloneNode(true);
+            container.appendChild(clone);
+        });
     });
 }

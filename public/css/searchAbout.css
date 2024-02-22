@@ -174,3 +174,12 @@ input[type="range"]::-ms-thumb {
     left: 0;
     right: 0;
 }
+
+.albums-genre {
+    width: 100%;
+}
+
+.albums-genre-divider {
+    border-bottom: 1px solid #ccc;
+    width: 80%;
+}
