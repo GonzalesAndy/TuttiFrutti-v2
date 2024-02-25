@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// Généré automatiquement par Symfony, compte admin nécessaire pour accéder à ces routes
+
 /**
  * @IsGranted("ROLE_ADMIN")
  */
@@ -26,12 +28,12 @@ class FruitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_fruit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FruitRepository $repository): Response
+    public function new(Request $request, FruitRepository $repository): Response
     {
         $fruit = new Fruit();
         $form = $this->createForm(FruitType::class, $fruit);
         $form->handleRequest($request);
-
+        // Modification de la méthode save pour qu'elle soit dans le repository
         if ($form->isSubmitted() && $form->isValid()) {
             $repository->save($fruit);
 

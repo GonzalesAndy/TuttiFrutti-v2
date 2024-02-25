@@ -36,6 +36,9 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/add-favorite, roles: ROLE_USER }
+        - { path: ^/remove-favorite, roles: ROLE_USER }
+        - { path: ^/favorite, roles: ROLE_USER }
 
 when@test:
     security:

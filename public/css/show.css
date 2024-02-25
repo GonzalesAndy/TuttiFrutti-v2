@@ -9,6 +9,7 @@
     border: 2px solid white;
     border-radius: 2rem;
     background-color: rgba(252, 186, 3, 0.3);
+    max-height: 600px;
 }
 
 .AlbumContainerTop {

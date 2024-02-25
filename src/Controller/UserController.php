@@ -2,14 +2,12 @@
 namespace App\Controller;
 
 use App\Entity\Album;
-use App\Entity\Fruit;
 use App\Entity\Genre;
 use App\Entity\Style;
 use App\Entity\Tracklist;
 use App\Repository\AlbumRepository;
 use App\Repository\TracklistRepository;
 use App\Repository\UserRepository;
-use App\Service\DiscogsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,82 +15,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ExplorerController extends AbstractController
+class UserController extends AbstractController
 {
-    /*
-     * Permet d'afficher les résultats de recherche pour 3 fruits pris aléatoirement
-     */
-    #[Route('/explorer', name: 'explorer')]
-    public function explorer(DiscogsApiService $discogsApiService, EntityManagerInterface $entityManager): Response
-    {
-        $results = [];
-        $descriptions = [];
-        $fruits = $entityManager->getRepository(className: Fruit::class)->findAll();
-        shuffle($fruits);
-        $fruits = array_slice($fruits, 0, 3);
-
-
-        foreach ($fruits as $fruit) {
-            $result = $discogsApiService->multipleLanguageSearch($fruit->getName(), 'master');
-            $results[$fruit->getName()] = $result;
-            $descriptions[$fruit->getName()] = $fruit->getDescription();
-            shuffle($results[$fruit->getName()]);
-        }
-        return $this->render('pages/explorer.html.twig', [
-            'title' => 'Explorer',
-            'results' => $results,
-            'descriptions' => $descriptions
-        ]);
-    }
-
-    /*
-     * Permet d'afficher les détails d'une musique
-     */
-    #[Route('/result/{id}', name: 'explorer_show')]
-    public function show(DiscogsApiService $discogsApiService, EntityManagerInterface $entityManager, $id): Response
-    {
-        $album = $entityManager->getRepository(Album::class)->find($id);
-        if ($album) {
-            $result = [
-                'id' => $album->getId(),
-                'title' => $album->getTitle(),
-                'artists' => [['name' => $album->getArtist()]],
-                'year' => $album->getYear(),
-                'country' => $album->getCountry(),
-                'images' => [['uri' => $album->getCoverImage()]],
-                'uri' => $album->getDiscogLink(),
-                'tracklist' => $album->getTrack()->map(fn(Tracklist $track) => [
-                    'title' => $track->getTitle(),
-                    'duration' => $track->getDuration()])->toArray(),
-                'genres' => $album->getGenre()->map(fn(Genre $genre) => $genre->getGenre())->toArray(),
-                'styles' => $album->getStyle()->map(fn(Style $style) => $style->getStyle())->toArray(),
-            ];
-            if ($this->getUser()) {
-                $result['liked'] = $this->getUser()->getFavorite()->contains($album);
-            }
-        } else {
-            $result = $discogsApiService->getRelease($id);
-            $result['liked'] = false;
-        }
-        return $this->render('pages/show.html.twig', [
-            'title' => 'Explorer',
-            'result' => $result
-        ]);
-    }
-
     /*
      * Permet d'ajouter les genres et styles d'un album
      */
     private function updateRelationships(EntityManagerInterface $entityManager, Album $album, string $field, string $class, string $property): void
     {
+        // Récupération des genres et styles de l'album
         if (isset($data['result'][$field])) {
             foreach ($data['result'][$field] as $item) {
+                // Si le genre ou le style n'existe pas, on le crée
                 $entity = $entityManager->getRepository($class)->findOneBy([$property => $item]);
                 if (!$entity) {
+                    // Création d'une nouvelle entité
                     $entity = new $class();
                     $entity->{"set$property"}($item);
                     $entity->save($entity);
                 }
+                // Ajout du genre ou du style à l'album
                 $album->{"add$field"}($entity);
             }
         }
@@ -104,9 +45,11 @@ class ExplorerController extends AbstractController
     #[Route('/add-favorite', name: 'add_favorite', methods: ['POST'])]
     public function addFavorite(EntityManagerInterface $entityManager, Request $request, TracklistRepository $tracklistRepository, AlbumRepository $albumRepository, UserRepository $userRepository): JsonResponse
     {
+        // Récupération des données de la requête
         $data = json_decode($request->getContent(), true);
         $albumId = $data['id'];
 
+        // Si l'album n'est pas dans la base de données on le crée
         $album = $entityManager->getRepository(Album::class)->find($albumId) ?? (new Album())
             ->setId($albumId)
             ->setTitle($data['title'])
@@ -117,9 +60,10 @@ class ExplorerController extends AbstractController
             ->setDiscogLink($data['uri'])
             ->setLikes(1);
 
+        // Ajout des genres et styles de l'album
         $this->updateRelationships($entityManager, $album, 'styles', Style::class, 'Style');
         $this->updateRelationships($entityManager, $album, 'genres', Genre::class, 'Genre');
-        // add tracklist
+        // Ajout des pistes de l'album
         if (isset($data['tracklist'])) {
             foreach ($data['tracklist'] as $track) {
                 $tracklist = new Tracklist();
@@ -132,6 +76,7 @@ class ExplorerController extends AbstractController
             }
         }
 
+        // Mise à jour de l'album dans la base de données
         $album->setLikes($album->getLikes() + 1);
 
         $user = $this->getUser();
@@ -150,10 +95,12 @@ class ExplorerController extends AbstractController
     #[Route('/remove-favorite', name: 'remove_favorite', methods: ['POST'])]
     public function removeFavorite(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository, AlbumRepository $albumRepository): JsonResponse
     {
+        // Récupération des données de la requête
         $data = json_decode($request->getContent(), true);
-        dump($data);
+        // Récupération de l'album
         $album = $entityManager->getRepository(Album::class)->find($data['id']);
         $user = $this->getUser();
+        // Suppression de l'album des favoris de l'utilisateur
         $user->removeFavorite($album);
         $userRepository->save($user);
         $album->setLikes($album->getLikes() - 1);
@@ -164,7 +111,6 @@ class ExplorerController extends AbstractController
     #[Route('/favorite', name: 'favorite')]
     public function favorite(): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $favorite = $this->getUser()->getFavorite();
         return $this->render('pages/favorite.html.twig', [
             'title' => 'Favorite',

@@ -13,13 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
 
-    private $entityManager;
 
     private DiscogsApiService $discogsApiService;
 
-    public function __construct(EntityManagerInterface $entityManager, DiscogsApiService $discogsApiService)
+    public function __construct(DiscogsApiService $discogsApiService)
     {
-        $this->entityManager = $entityManager;
         $this->discogsApiService = $discogsApiService;
     }
 
@@ -37,6 +35,7 @@ class HomeController extends AbstractController
     #[Route('/autocompleteList', name: 'autocompleteList', methods: ['GET'])]
     public function autocompleteList(EntityManagerInterface $entityManager): JsonResponse
     {
+        // Renvoie tous les fruits dispinibles dans la base de données
         $fruits = $entityManager->getRepository(className: Fruit::class)->findAll();
 
         $fruitNames = array_map(function($fruit) {
@@ -49,8 +48,8 @@ class HomeController extends AbstractController
     #[Route('/search/{title}/{pagination}', name: 'search')]
     public function search(string $title, int $pagination): Response
     {
+        // Recherche d'albums en utilisation l'api discogs
         $type = 'master';
-        
         $result = $this->discogsApiService->multipleLanguageSearch($title, $type, $pagination);
 
         return $this->render('pages/search.html.twig', [
