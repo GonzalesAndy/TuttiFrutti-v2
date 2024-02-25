@@ -82,6 +82,6 @@ const setUpSearchLogic = () => {
 
     const performSearch = (searchQuery) => {
         console.log("Search for: ", searchQuery);
-        if (searchQuery) window.location.href = '/search' + searchQuery + '/1';
+        if (searchQuery) window.location.href = '/search/' + searchQuery + '/1';
     };
 };

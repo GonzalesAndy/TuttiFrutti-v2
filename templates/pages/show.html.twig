@@ -17,14 +17,10 @@
     <div class="AlbumContainer">
         <div class="AlbumContainerTop">
             <div class="AlbumInfos">
-                <p class="albumTitle" ><strong>{{ result.title }}</strong><br><br><i>{{ result.artists.0.name}}</i></p>
-
-            {# Affichage infos de base #}
-            <div class="AlbumInfos">
 
                 {# Affichage du titre si présent #}
                 {% if result.title is not null %}
-                    <h3>{{ result.title }}</h3><br><br>
+                    <h3>{{ result.title }}</h3>
                 {% endif %}
 
                 {# Affichage de l'artiste si présent #}

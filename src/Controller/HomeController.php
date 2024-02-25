@@ -60,16 +60,16 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/search{title}/{pagination}', name: 'search')]
+    #[Route('/search/{title}/{pagination}', name: 'search')]
     public function search(string $title, int $pagination): Response
     {
         $type = 'master';
         
-        $result = $this->discogsApiService->search($title, $type);
+        $result = $this->discogsApiService->multipleLanguageSearch($title, $type);
 
         return $this->render('pages/results.html.twig', [
             'title' => 'Tutti Fruiti - ' . $title,
-            'results' => $result['results'],
+            'results' => $result,
         ]);
     }
 }

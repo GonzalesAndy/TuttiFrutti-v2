@@ -7,7 +7,9 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/searchAbout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/explorer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/favorite.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -15,14 +17,30 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        {% for album in favorite %}
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>{{ album.title }}</h2>
-                    <p>{{ album.artist }}</p>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="container" style="padding-top:1px">
+        <h1 id="fruit-title">Vos favoris</h1>
+        <div class="albums-wrapper">
+            {% for album in favorite %}
+                <a href="/result/{{ album.id }}" data-year="{{ album.year|default('') }}"
+                   data-genres="{{ album.genre|default([])|join(',') }}" class="sortable-item">
+                    <div class="albumCard">
+                        <img class="albumThumb" src="{{ album.coverImage }}" alt="Album Image">
+                        <p class="albumTitle">
+                            <strong>{{ album.title|slice(0,30) }}
+                                {% if album.title|length > 30 %}
+                                    ...
+                                {% endif %}
+                            </strong><br>
+                            {{ album.artist|slice(0,20) }}
+                            {% if album.artist|length > 20 %}
+                                ...
+                            {% endif %}
+                        </p>
+                        <a href="" class="btn btn-primary" id="dislikeBtn">&#10060;</a>
+                    </div>
+                </a>
+            {% endfor %}
+            <script src="{{ asset('js/allbumsFilter.js') }}"></script>
+        </div>
     </div>
 {% endblock %}
