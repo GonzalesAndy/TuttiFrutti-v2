@@ -51,10 +51,10 @@ class HomeController extends AbstractController
     {
         $type = 'master';
         
-        $result = $this->discogsApiService->multipleLanguageSearch($title, $type);
+        $result = $this->discogsApiService->multipleLanguageSearch($title, $type, $pagination);
 
-        return $this->render('pages/results.html.twig', [
-            'title' => 'Tutti Fruiti - ' . $title,
+        return $this->render('pages/search.html.twig', [
+            'title' => $title,
             'results' => $result,
             'pagination' => $pagination
         ]);

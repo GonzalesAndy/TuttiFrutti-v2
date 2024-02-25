@@ -17,7 +17,7 @@ class DiscogsApiService
     }
 
 
-    public function search($fruit, $type)
+    public function search($fruit, $type, $pagination = 1)
     {
         $url = $this->baseUrl . '/database/search';
 
@@ -27,6 +27,7 @@ class DiscogsApiService
             'query' => [
                 'release_title' => $fruit,
                 'type' => $type,
+                'page' => $pagination
             ],
             'headers' => [
                 'Authorization' => 'Discogs key=dTyvSehxTNlwNnVtQAlX, secret=XpzdPJFdIqfHjXqJPUuwsBGsHUXuQUCv',
@@ -52,10 +53,10 @@ class DiscogsApiService
         return $tracklist;
     }
 
-    public function multipleLanguageSearch($fruitName, $type)
+    public function multipleLanguageSearch($fruitName, $type, $pagination = 1)
     {
         $fruit = $this->fruitRepository->findByName($fruitName);
-        $searchResults = $this->search($fruit->getName()."||".$fruit->getJapanese()."||".$fruit->getEnglish(),$type)['results'];
+        $searchResults = $this->search($fruit->getName()."||".$fruit->getJapanese()."||".$fruit->getEnglish(),$type, $pagination)['results'];
         return $searchResults;
     }
 

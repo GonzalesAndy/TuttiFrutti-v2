@@ -27,11 +27,22 @@
     padding: 0.2rem;
     padding-inline: 1rem;
     border-radius: 1.1rem;
+    color: black;
+}
+
+.disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }
 
 .buttonsContainer a:hover{
     cursor: pointer;
     background-color: white;
+}
+
+.disabled:hover {
+    background-color: grey !important;
+    cursor: not-allowed !important;
 }
 
 #fruit-wrapper {
