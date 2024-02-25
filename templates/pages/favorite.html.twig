@@ -9,6 +9,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/searchAbout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/explorer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/favorite.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -16,9 +17,9 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container" style="padding-top:1px">
+    <div class="container">
         <h1 id="fruit-title">Vos favoris</h1>
-        <div class="albums-wrapper" style="width:100%">
+        <div class="albums-wrapper">
             {% for album in favorite %}
                 <a href="/result/{{ album.id }}" data-year="{{ album.year|default('') }}"
                    data-genres="{{ album.genre|default([])|join(',') }}" class="sortable-item">
@@ -35,8 +36,7 @@
                                 ...
                             {% endif %}
                         </p>
-                        <a style="color:black;" class="btn" id="dislikeBtn" data-id={{album.id}}>&#10006; Delete</a>
-                           
+                        <a class="btn" id="dislikeBtn" data-id={{album.id}}>&#10006; Delete</a>   
                     </div>
                 </a>
             {% endfor %}

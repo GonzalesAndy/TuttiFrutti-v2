@@ -7,6 +7,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -14,7 +15,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="AlbumContainer" style="background-image: url({{result.images.0.uri}});">
+    <div class="AlbumContainer">
         <div class="AlbumContainerTop">
             <div class="AlbumInfos">
 
@@ -44,7 +45,7 @@
 
         {#Affichage du bouton like si connecté et pas liké#}
         {% if app.user and result.liked == false %}
-            <a class="btn btn-primary" id="likeBtn">&#9829; Favorite &#9829;</a>
+            <a class="btn btn-primary" id="likeBtn">Favorite</a>
             <script>
                 const addFavorite = document.querySelector('.btn');
                 addFavorite.addEventListener('click', function(e) {
@@ -65,7 +66,11 @@
             {% if result.tracklist is not empty %}
                 <h3>Tracklist :</h3>
                 {%  for track in result.tracklist %}
-                <p class="albumTrack">{{ track.title }}
+                <p class="albumTrack">
+                    {{ track.title|slice(0,30)}}
+                    {% if track.title | length > 30 %}
+                        ...
+                    {% endif %}
                     {% if track.duration != "" %}
                         | <i>{{ track.duration }}</i>
                     {% endif %}
@@ -83,11 +88,11 @@
                     {% endif %}
                 {% endfor %}|
             {% endif %}<br><br>
-
-            {#Affichage d'un lien vers discogs si présent#}
-            {% if result.uri is not null %}
-                <a href="{{ result.uri }}">See on discogs</a>
-            {% endif %}
         </div>
+        {#Affichage d'un lien vers discogs si présent#}
+        {% if result.uri is not null %}
+            <a class="discogsLink" href="{{ result.uri }}">Voir sur discogs</a>
+        {% endif %}
     </div>
+    {{ include('paralax.html.twig') }}
 {% endblock %}

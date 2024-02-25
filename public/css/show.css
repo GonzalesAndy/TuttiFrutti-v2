@@ -2,9 +2,13 @@
     display: flex;
     flex-direction: column;
     padding: 3rem;
-    padding-top: 5rem;
     width: fit-content;
     margin-inline: auto;
+    position: relative;
+    transform: translateY(7rem);
+    border: 2px solid white;
+    border-radius: 2rem;
+    background-color: rgba(252, 186, 3, 0.3);
 }
 
 .AlbumContainerTop {
@@ -27,23 +31,52 @@ a.btn.btn-primary {
 
 .AlbumContainerBot {
     text-align: center;
+    overflow-y: scroll;
+    font-weight: 700;
+    max-height: 20rem;
 }
 
 #likeBtn {
-    padding: 0.5rem;
+    padding: 0.2rem;
     border-radius: 2rem;
     text-decoration: none;
-    background-color: transparent;
     border: 2px white solid;
-    color: black;
-    font-size: 18px;
-    transition: ease-in-out;
-    transition-duration: 0.2s;
     margin-top: 1rem;
+    width: fit-content;
+    padding-inline: 2rem;
+    margin-inline: auto;
+    font-weight: 700;
 }
 
 #likeBtn:hover {
-    background-color: pink;
+    background-color: white;
     transition: ease-in-out;
     transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.discogsLink {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.AlbumContainerBot::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.AlbumContainerBot::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: transparent;
+}
+
+.AlbumContainerBot::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
 }
