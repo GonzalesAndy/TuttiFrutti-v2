@@ -46,27 +46,30 @@
             </div>
         </div>
         <div class="fruit-filter-divider"></div>
-        <div class="albums-wrapper">
-            {% for result in results %}
-                <a href="/result/{{ result.id }}" data-year="{{ result.year|default('') }}"
-                   data-genres="{{ result.genre|default([])|join(',') }}" class="sortable-item">
-                    <div class="albumCard">
-                        <img class="albumThumb" src="{{ result.thumb }}" alt="Album Image">
-                        <p class="albumTitle">
-                            <strong>{{ result.title|split(' - ')[0]|slice(0,30) }}
-                                {% if result.title|split(' - ')[1]|length > 30 %}
+        <div class="fruitSearchContainer">
+            <div class="albums-wrapper">
+                {% for result in results %}
+                    <a href="/result/{{ result.id }}" data-year="{{ result.year|default('') }}"
+                    data-genres="{{ result.genre|default([])|join(',') }}" class="sortable-item">
+                        <div class="albumCard">
+                            <img class="albumThumb" src="{{ result.thumb }}" alt="Album Image">
+                            <p class="albumTitle">
+                                <strong>{{ result.title|split(' - ')[0]|slice(0,30) }}
+                                    {% if result.title|split(' - ')[1]|length > 30 %}
+                                        ...
+                                    {% endif %}
+                                </strong><br>
+                                {{ result.title|split(' - ')[1]|slice(0,20) }}
+                                {% if result.title|split(' - ')[1]|length > 20 %}
                                     ...
                                 {% endif %}
-                            </strong><br>
-                            {{ result.title|split(' - ')[1]|slice(0,20) }}
-                            {% if result.title|split(' - ')[1]|length > 20 %}
-                                ...
-                            {% endif %}
-                        </p>
-                    </div>
-                </a>
-            {% endfor %}
-            <script src="{{ asset('js/allbumsFilter.js') }}"></script>
+                            </p>
+                        </div>
+                    </a>
+                {% endfor %}
+                <script src="{{ asset('js/allbumsFilter.js') }}"></script>
+            </div>
+            <div class="buttonsContainer"><a><</a><a>></a></div>
         </div>
     </div>
 {% endblock %}

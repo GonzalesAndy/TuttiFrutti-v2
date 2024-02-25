@@ -46,20 +46,6 @@ class HomeController extends AbstractController
         return $this->json($fruitNames);
     }
 
-    #[Route('/test', name: 'test')]
-    public function test(): Response
-    {
-        $title = 'banana';
-        $type = 'master';
-
-        $result = $this->discogsApiService->search($title, $type);
-
-        return $this->render('pages/test.html.twig', [
-            'title' => 'Test',
-            'results' => $result['results'],
-        ]);
-    }
-
     #[Route('/search/{title}/{pagination}', name: 'search')]
     public function search(string $title, int $pagination): Response
     {
