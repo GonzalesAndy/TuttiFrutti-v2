@@ -70,6 +70,7 @@ class HomeController extends AbstractController
         return $this->render('pages/results.html.twig', [
             'title' => 'Tutti Fruiti - ' . $title,
             'results' => $result,
+            'pagination' => $pagination
         ]);
     }
 }
