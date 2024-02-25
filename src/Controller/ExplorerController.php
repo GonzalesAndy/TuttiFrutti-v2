@@ -151,7 +151,8 @@ class ExplorerController extends AbstractController
     public function removeFavorite(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository, AlbumRepository $albumRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $album = $entityManager->getRepository(Album::class)->find($data['result']['id']);
+        dump($data);
+        $album = $entityManager->getRepository(Album::class)->find($data['id']);
         $user = $this->getUser();
         $user->removeFavorite($album);
         $userRepository->save($user);

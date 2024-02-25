@@ -44,15 +44,17 @@
 
         {#Affichage du bouton like si connecté et pas liké#}
         {% if app.user and result.liked == false %}
-            <a href="" class="btn btn-primary" id="likeBtn">&#9829; Favorite &#9829;</a>
+            <a class="btn btn-primary" id="likeBtn">&#9829; Favorite &#9829;</a>
             <script>
                 const addFavorite = document.querySelector('.btn');
                 addFavorite.addEventListener('click', function(e) {
+                    e.preventDefault();
                     const result = {{ result|json_encode|raw }};
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', '/add-favorite', true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify(result));
+                    window.location.reload();
                 });
             </script>
         {% endif %}
